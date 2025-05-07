@@ -1,0 +1,91 @@
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Detalles del camion</h3>
+
+      <form action="" method="post" enctype="multipart/form-data">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_foto_camion">Foto del Camion</label></td>
+              <td><img src="{{ camion.foto_camion.url }}" /></td>
+            </tr>
+            <tr>
+              <td><label for="id_placa">Placa del camión</label></td>
+              <td>{{ camion.placa }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_marca">Marca</label></td>
+              <td>{{ camion.marca }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_modelo">Modelo</label></td>
+              <td>{{ camion.modelo }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_year_fabricacion">Año de fabricación</label>
+              </td>
+              <td>{{ camion.year_fabricacion }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_capacidad_carga"
+                  >Capacidad de carga (toneladas)</label
+                >
+              </td>
+              <td>{{ camion.capacidad_carga }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipo_camion">Tipo de camión</label></td>
+              <td>{{ camion.tipo_camion }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_estado_operativo">Estado operativo</label></td>
+              <td>{{ camion.estado_operativo }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_fecha_adquisicion">Fecha de adquisición</label>
+              </td>
+              <td>{{ camion.fecha_adquisicion }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_proxima_fecha_mantenimiento"
+                  >Próxima fecha de mantenimiento</label
+                >
+              </td>
+              <td>{{ camion.propietario_vehiculo}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_rendimiento_combustible"
+                  >Rendimiento de combustible (km/l)</label
+                >
+              </td>
+              <td>{{ camion.rendimiento_combustible }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_empresa_propietaria">Empresa propietaria</label>
+              </td>
+              <td>{{ camion.empresa_propietaria }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_notas">Notas adicionales</label></td>
+              <td>{{ camion.notas }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+</div>
+{%endblock %}

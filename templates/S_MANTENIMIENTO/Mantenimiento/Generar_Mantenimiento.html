@@ -1,0 +1,53 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+          <div class="row my-5">
+            <h3 class="fs-4 mb-3">
+              Registro de Camiones que requieren Mantenimiento
+            </h3>
+            <div class="col">
+              <table class="table bg-white rounded shadow-sm table-hover">
+                <thead>
+                  <tr>
+                    <th>Placa</th>
+                    <th>Marca</th>
+                    <th>Último Motivo de Mantenimiento</th>
+                    <th>Generar Mantenimiento</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for camion in camiones %}
+                  <tr>
+                    <td>{{ camion.placa }}</td>
+                    <td>{{ camion.marca }}</td>
+                    <td>
+                      {% if camion.motivos_mantenimiento.all %}
+                      {{camion.motivos_mantenimiento.last.motivo }} {% else %}
+                      No tiene motivos registrados {% endif %}
+                    </td>
+                    <td>
+                      {% if camion.motivos_mantenimiento.all %}
+                      <a
+                        href="{% url 'mantenimientos' camion.id camion.motivos_mantenimiento.last.id 'crear' %}"
+                        >Generar Mantenimiento</a
+                      >
+                      <td>
+                        <a href="{% url 'ver_registros_mantenimiento' camion.id %}" class="btn btn-info btn-sm">Ver Registros</a>
+                      </td>  <!-- Botón para ver registros -->
+                      {% else %}
+                      <span>No disponible</span>
+                      {% endif %}
+                    </td>
+                  </tr>
+                  {% empty %}
+                  <tr>
+                    <td colspan="4">
+                      No hay camiones que requieran mantenimiento.
+                    </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </div>
+{% endblock %}

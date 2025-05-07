@@ -1,0 +1,82 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+<div class="row my-5">
+    <title>Factura - {{ factura.numero_factura }}</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 20px;
+      }
+      .factura {
+        border: 1px solid #000;
+        padding: 20px;
+        max-width: 600px;
+        margin: auto;
+        background-color: #ffffff; /* Fondo blanco */
+      }
+      .titulo {
+        text-align: center;
+        font-size: 24px;
+        font-weight: bold;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 10px;
+      }
+      th,
+      td {
+        border: 1px solid #000;
+        padding: 8px;
+        text-align: left;
+      }
+      .total {
+        font-weight: bold;
+        text-align: right;
+      }
+      .boton-imprimir {
+        margin-top: 10px;
+        text-align: center;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="factura">
+      <div class="titulo">Factura</div>
+      <p><strong>Número:</strong> {{ factura.numero_factura }}</p>
+      <p><strong>Fecha:</strong> {{ factura.fecha_emision }}</p>
+      <p><strong>Mantenimiento ID:</strong> {{ mantenimiento.id }}</p>
+      <p><strong>Camión:</strong> {{ mantenimiento.camion.placa }}</p>
+      <p><strong>Taller:</strong> {{ factura.taller }}</p>
+      <p><strong>Estado del Pago:</strong> {{ factura.estado_pago }}</p>
+
+      <h3>Detalles del Mantenimiento</h3>
+      <table>
+        <tr>
+          <th>Descripción</th>
+          <th>Cantidad</th>
+          <th>Costo Unitario</th>
+          <th>Total</th>
+        </tr>
+        {% for detalle in detalles %}
+        <tr>
+          <td>{{ detalle.descripcion_servicio_repuesto }}</td>
+          <td>{{ detalle.cantidad }}</td>
+          <td>{{ detalle.costo_unitario }}</td>
+          <td>{{ detalle.costo_total }}</td>
+        </tr>
+        {% endfor %}
+        <tr>
+          <td colspan="3" class="total">Monto Total:</td>
+          <td class="total">{{ factura.monto_total }}</td>
+        </tr>
+      </table>
+
+      <div class="boton-imprimir">
+        <button onclick="window.print()">Imprimir Factura</button>
+      </div>
+    </div>
+  </body>
+</div>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'bases/base_jefe_despacho.html' %}
+
+{% block title %}Eliminar Guía de Remisión{% endblock %}
+
+{% block page_title %}Confirmar Eliminación{% endblock %}
+
+{% block content %}
+
+  <p>¿Estás seguro que deseas eliminar la Guía {{ guia.id }} - {{ guia.get_tipo_guia_display }}?</p>
+
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit">Sí, eliminar</button>
+    <a href="{% url 'listar_guias' %}">Cancelar</a>
+  </form>
+{% endblock %}

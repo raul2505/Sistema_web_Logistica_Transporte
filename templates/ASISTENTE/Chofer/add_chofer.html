@@ -1,0 +1,161 @@
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Registrar Nuevo Chofer</h3>
+      <form
+        method="POST"
+        action="{% url 'chofer_action_simple' action='crear' %}"
+      >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_usuario">Usuario asociado</label></td>
+              <td>{{ form.usuario }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_nombres">Nombres</label></td>
+              <td>{{ form.nombres }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_apellidos">Apellidos</label></td>
+              <td>{{ form.apellidos }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_fecha_nacimiento">Fecha de Nacimiento</label>
+              </td>
+              <td>{{ form.fecha_nacimiento }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_domicilio">Domicilio</label></td>
+              <td>{{ form.domicilio }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_telefono">Telefono</label></td>
+              <td>{{ form.telefono }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipo_licencia">Tipo de licencia</label></td>
+              <td>{{ form.tipo_licencia }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_numero">numero_licencia</label></td>
+              <td>{{ form.numero_licencia }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_fecha_emision">Fecha de emisión</label></td>
+              <td>{{ form.fecha_emision}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_fecha_vencimiento">Fecha de vencimiento</label>
+              </td>
+              <td>{{ form.fecha_vencimiento }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_estado_salud">Estado de Salud</label></td>
+              <td>{{ form.estado_salud}}</td>
+            </tr>
+            <tr>
+              <td><label for="id_camion_asignado">Camion Asignado</label></td>
+              <td>{{ form.camion }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Crear chofer</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+  <div class="container-fluid">
+    <div class="row my-5">
+      <div class="col-12">
+        <section class="form-container p-4 bg-white rounded shadow-sm">
+          <h3 class="fs-4 mb-3">Choferes Registrados</h3>
+          <!-- Contenedor responsive para la tabla -->
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr>
+                  <th>Usuario</th>
+                  <th>Nombres</th>
+                  <th>Apellidos</th>
+                  <th>Fecha de Nacimiento</th>
+                  <th>Domicilio</th>
+                  <th>Teléfono</th>
+                  <th>Tipo de Licencia</th>
+                  <th>Número de Licencia</th>
+                  <th>Fecha de Emisión</th>
+                  <th>Fecha de Vencimiento</th>
+                  <th>Estado de Salud</th>
+                  <th>Camión Asignado</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for chofer in choferes %}
+                <tr>
+                  <td>{{ chofer.usuario }}</td>
+                  <td>{{ chofer.nombres }}</td>
+                  <td>{{ chofer.apellidos }}</td>
+                  <td>{{ chofer.fecha_nacimiento }}</td>
+                  <td>{{ chofer.domicilio }}</td>
+                  <td>{{ chofer.telefono }}</td>
+                  <td>{{ chofer.tipo_licencia }}</td>
+                  <td>{{ chofer.numero_licencia }}</td>
+                  <td>{{ chofer.fecha_emision }}</td>
+                  <td>{{ chofer.fecha_vencimiento }}</td>
+                  <td>{{ chofer.estado_salud }}</td>
+                  <td>
+                    {% if chofer.camion %} {{ chofer.camion.placa }} {% else %}
+                    Sin camión asignado {% endif %}
+                  </td>
+                  <td>
+                    <a
+                      href="{% url 'modificar_chofer' chofer.id %}"
+                      class="btn btn-primary btn-sm"
+                      >Editar</a
+                    >
+                    <form
+                      method="POST"
+                      action="{% url 'chofer_action' 'eliminar' chofer.id %}"
+                      style="display: inline-block"
+                    >
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">
+                        Eliminar
+                      </button>
+                    </form>
+                    <a
+                      href="{% url 'detalles_chofer' chofer.id %}"
+                      class="btn btn-info btn-sm"
+                      aria-label="Mostrar detalles"
+                      >Detalles</a
+                    >
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="13" class="text-center">
+                    No hay choferes registrados.
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          <!-- Fin de table-responsive -->
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock %}

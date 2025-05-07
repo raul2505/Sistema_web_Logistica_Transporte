@@ -1,0 +1,56 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+
+<div class="container-fluid px-4">
+  <div class="row my-5">
+    <h3 class="fs-4 mb-3">
+      Registros de Mantenimiento - {{ camion.placa }} ({{ camion.marca }})
+    </h3>
+    <div class="col">
+      <table class="table bg-white rounded shadow-sm table-hover">
+        <thead>
+          <tr>
+            <th>Fecha</th>
+            <th>Tipo de Mantenimiento</th>
+            <th>Mecanico Asignado</th>
+            <th>Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for mantenimiento in registros_mantenimiento %}
+          <tr>
+            <td>{{ mantenimiento.fecha_mantenimiento }}</td>
+            <td>{{ mantenimiento.tipo_mantenimiento }}</td>
+
+            <td>{{ mantenimiento.taller }}</td>
+
+            <td>
+              {% if mantenimiento.estado_mantenimiento == "Pendiente" %}
+              <span class="badge bg-warning"
+                >{{ mantenimiento.estado_mantenimiento }}</span
+              >
+              {% elif mantenimiento.estado_mantenimiento == "En Proceso" %}
+              <span class="badge bg-primary"
+                >{{ mantenimiento.estado_mantenimiento }}</span
+              >
+              {% else %}
+              <span class="badge bg-success"
+                >{{ mantenimiento.estado_mantenimiento }}</span
+              >
+              {% endif %}
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="6">
+              No hay registros de mantenimiento para este camión.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{%endblock %}

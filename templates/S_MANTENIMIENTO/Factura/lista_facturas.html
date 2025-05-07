@@ -1,0 +1,50 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+
+<div class="row my-5">
+  <h3 class="fs-4 mb-3">Registro de Mantenimientos</h3>
+  <div class="col">
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>Número de Factura</th>
+          <th>Fecha de Emisión</th>
+          <th>ID Mantenimiento</th>
+          <th>Camión</th>
+          <th>Monto Total</th>
+          <th>Método de Pago</th>
+          <th>Estado de Pago</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for factura in facturas %}
+        <tr>
+          <td>{{ factura.numero_factura }}</td>
+          <td>{{ factura.fecha_emision }}</td>
+          <td>{{ factura.mantenimiento.id }}</td>
+          <td>{{ factura.mantenimiento.camion }}</td>
+          <td>{{ factura.monto_total }}</td>
+          <td>{{ factura.metodo_pago }}</td>
+          <td>{{ factura.estado_pago }}</td>
+          <td>
+            <a
+              href="{% url 'factura_detalle' factura.id %}"
+              class="btn btn-success btn-sm"
+            >
+              Ver detalle total
+            </a>
+          </td>
+        </tr>
+
+        {% empty %}
+        <tr>
+          <td colspan="7">No hay facturas registradas.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

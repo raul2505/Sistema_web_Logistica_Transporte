@@ -1,0 +1,249 @@
+
+{% extends 'bases/base_coordinador.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} coordinador {%endblock %}
+{% block content %}
+            <div class="container-fluid px-4">
+                
+
+                <!-- Listado de Postulantes -->
+                <div class="col-12">
+                  <h3 class="fs-4 mb-3">Postulantes Registrados</h3>
+                  <table class="table bg-white rounded shadow-sm table-hover">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Tipo de Licencia</th>
+                        <th>Formato de Licencia</th>
+                        <th>Licencia Frontal</td>
+                        <th>Licencia Posterior</td>
+                        <th>Licencia Electrónica</td>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for postulante in postulantes %}
+                      {% if postulante.estado == "tercera_aprobada" %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ postulante.nombres }}</td>
+                        <td>{{ postulante.apellidos }}</td>
+                        <td>{{ postulante.tipo_licencia }}</td>
+                        <td>{{ postulante.tipo_licencia_formato }}</td>
+                        <td>
+                          {% if postulante.licencia_frontal %}
+                              <img src="{{ postulante.licencia_frontal.url }}" alt="Licencia Frontal" width="100">
+                          {% else %}
+                              No disponible
+                          {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_posterior %}
+                                <img src="{{ postulante.licencia_posterior.url }}" alt="Licencia Posterior" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_electronica %}
+                                <img src="{{ postulante.licencia_electronica.url }}" alt="Licencia Electrónica" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>{{ postulante.estado }}</td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row my-5">
+                  <!-- Formulario de Registro -->
+                  <div class="col-12 mb-5">
+                    <section class="form-container p-4 bg-white rounded shadow-sm">
+                      <h3 class="fs-4 mb-3">Registrar Resultados de Examen/es Médico/s del Postulante (Cuarta Etapa)</h3>
+                      
+                      <!-- Combobox mejorado -->
+                      <div class="mb-4">
+                        <select id="postulanteSelect" class="form-select">
+                          <option value="">Seleccione un postulante...</option>
+                          {% for postulante in postulantes %}
+                            {% if postulante.estado == "tercera_aprobada" %}
+                              <option value="{{ postulante.id }}"
+                                      data-nombres="{{ postulante.nombres }}"
+                                      data-apellidos="{{ postulante.apellidos }}"
+                                      data-tipo-licencia="{{ postulante.tipo_licencia }}"
+                                      data-tipo-licencia-formato="{{ postulante.tipo_licencia_formato }}"
+                                      data-licencia-frontal="{% if postulante.licencia_frontal %}{{ postulante.licencia_frontal.url }}{% endif %}"
+                                      data-licencia-posterior="{% if postulante.licencia_posterior %}{{ postulante.licencia_posterior.url }}{% endif %}"
+                                      data-licencia-electronica="{% if postulante.licencia_electronica %}{{ postulante.licencia_electronica.url }}{% endif %}"
+                                      data-clinica="{{ postulante.clinica }}"
+                                      data-examenes="{% for examen in postulante.examenes_requeridos.all %}{{ examen.tipo }}{% if not forloop.last %},{% endif %}{% endfor %}">>
+                                ID: {{ postulante.id }} - {{ postulante.nombres }} {{ postulante.apellidos }}
+                              </option>
+                            {% endif %}
+                          {% endfor %}
+                        </select>
+                      </div>
+                  
+                      <form id="resultadosForm" method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" id="postulante_id" name="postulante_id">
+                        <div class="table-responsive">
+                          <table class="table table-bordered">
+                            <tbody>
+                              <!-- Campos existentes con visualización -->
+                              <tr>
+                                <td><label for="id_nombres">Nombre/s del postulante</label></td>
+                                <td><input type="text" id="id_nombres" name="nombres" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_apellidos">Apellidos del postulante</label></td>
+                                <td><input type="text" id="id_apellidos" name="apellidos" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_tipo_licencia">Tipo de Licencia</label></td>
+                                <td><input type="text" id="id_tipo_licencia" name="tipo_licencia" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_tipo_licencia_formato">Formato de Licencia</label></td>
+                                <td><input type="text" id="id_tipo_licencia_formato" name="tipo_licencia_formato" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label>Licencia Frontal</label></td>
+                                <td>
+                                  <div id="licencia_frontal_preview" class="mb-2"></div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><label>Licencia Posterior</label></td>
+                                <td>
+                                  <div id="licencia_posterior_preview" class="mb-2"></div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><label>Licencia Electrónica</label></td>
+                                <td>
+                                  <div id="licencia_electronica_preview" class="mb-2"></div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_clinica">Clinica</label></td>
+                                <td><input type="text" id="id_clinica" name="clinica" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_examenes_medicos">Examenes Médicos Requeridos</label></td>
+                                <td><input type="text" id="id_examenes_medicos" name="examenes_medicos" class="form-control" readonly></td>
+                              </tr>
+                              <!-- Campos dinámicos para resultados médicos -->
+                              <tr id="medicina_general_row" style="display: none;">
+                                <td><label for="resultado_medicina_general">Medicina General</label></td>
+                                <td><input type="file" id="resultado_medicina_general" name="resultado_medicina_general" class="form-control"></td>
+                              </tr>
+                              <tr id="toxicologico_row" style="display: none;">
+                                <td><label for="resultado_toxicologico">Toxicológico</label></td>
+                                <td><input type="file" id="resultado_toxicologico" name="resultado_toxicologico" class="form-control"></td>
+                              </tr>
+                              <tr id="oftalmologia_row" style="display: none;">
+                                <td><label for="resultado_oftalmologia">Oftalmología</label></td>
+                                <td><input type="file" id="resultado_oftalmologia" name="resultado_oftalmologia" class="form-control"></td>
+                              </tr>
+                              <tr id="otorrinolaringologia_row" style="display: none;">
+                                <td><label for="resultado_otorrinolaringologia">Otorrinolaringología</label></td>
+                                <td><input type="file" id="resultado_otorrinolaringologia" name="resultado_otorrinolaringologia" class="form-control"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="text-center mt-3">
+                          <button type="submit" class="btn btn-success">Registrar Resultado/s Médico/s</button>
+                        </div>
+                      </form>
+                    </section>
+                  </div>
+                  
+                  <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                    const postulanteSelect = document.getElementById('postulanteSelect');
+                    const formulario = document.getElementById('resultadosForm');
+                    
+                    postulanteSelect.addEventListener('change', function() {
+                        const selectedOption = this.options[this.selectedIndex];
+                        
+                        if (selectedOption.value) {
+                            // Actualizar la acción del formulario con el ID del postulante seleccionado
+                            const postulanteId = selectedOption.value;
+                            formulario.action = `/registrar_resultados_medicos/${postulanteId}/`;
+                            
+                            // Poblar campos existentes
+                            document.getElementById('postulante_id').value = postulanteId;
+                            document.getElementById('id_nombres').value = selectedOption.getAttribute('data-nombres');
+                            document.getElementById('id_apellidos').value = selectedOption.getAttribute('data-apellidos');
+                            document.getElementById('id_tipo_licencia').value = selectedOption.getAttribute('data-tipo-licencia');
+                            document.getElementById('id_tipo_licencia_formato').value = selectedOption.getAttribute('data-tipo-licencia-formato');
+                            document.getElementById('id_clinica').value = selectedOption.getAttribute('data-clinica');
+                            
+                            // Mostrar imágenes de licencias
+                            const showImage = (url, containerId) => {
+                                const container = document.getElementById(containerId);
+                                container.innerHTML = url ? 
+                                    `<img src="${url}" alt="Licencia" class="img-fluid" style="max-width: 200px;">` : 
+                                    '<p class="text-muted">No disponible</p>';
+                            };
+                            
+                            showImage(selectedOption.getAttribute('data-licencia-frontal'), 'licencia_frontal_preview');
+                            showImage(selectedOption.getAttribute('data-licencia-posterior'), 'licencia_posterior_preview');
+                            showImage(selectedOption.getAttribute('data-licencia-electronica'), 'licencia_electronica_preview');
+                            
+                            // Mostrar/ocultar campos de exámenes médicos según los exámenes requeridos
+                            const examenes = selectedOption.getAttribute('data-examenes').split(',');
+                            document.getElementById('id_examenes_medicos').value = examenes.join(', ');
+                            
+                            // Mostrar/ocultar filas de resultados según los exámenes requeridos
+                            document.getElementById('medicina_general_row').style.display = 
+                                examenes.includes('medicina_general') ? 'table-row' : 'none';
+                            document.getElementById('toxicologico_row').style.display = 
+                                examenes.includes('toxicologico') ? 'table-row' : 'none';
+                            document.getElementById('oftalmologia_row').style.display = 
+                                examenes.includes('oftalmologia') ? 'table-row' : 'none';
+                            document.getElementById('otorrinolaringologia_row').style.display = 
+                                examenes.includes('otorrinolaringologia') ? 'table-row' : 'none';
+                            
+                            // Hacer requeridos los campos visibles
+                            document.getElementById('resultado_medicina_general').required = 
+                                examenes.includes('medicina_general');
+                            document.getElementById('resultado_toxicologico').required = 
+                                examenes.includes('toxicologico');
+                            document.getElementById('resultado_oftalmologia').required = 
+                                examenes.includes('oftalmologia');
+                            document.getElementById('resultado_otorrinolaringologia').required = 
+                                examenes.includes('otorrinolaringologia');
+                        } else {
+                            // Limpiar todos los campos si no hay selección
+                            formulario.action = '';
+                            document.getElementById('postulante_id').value = '';
+                            document.getElementById('id_nombres').value = '';
+                            document.getElementById('id_apellidos').value = '';
+                            document.getElementById('id_tipo_licencia').value = '';
+                            document.getElementById('id_tipo_licencia_formato').value = '';
+                            document.getElementById('id_clinica').value = '';
+                            document.getElementById('id_examenes_medicos').value = '';
+                            document.getElementById('licencia_frontal_preview').innerHTML = '';
+                            document.getElementById('licencia_posterior_preview').innerHTML = '';
+                            document.getElementById('licencia_electronica_preview').innerHTML = '';
+                            
+                            // Ocultar todas las filas de resultados médicos
+                            document.getElementById('medicina_general_row').style.display = 'none';
+                            document.getElementById('toxicologico_row').style.display = 'none';
+                            document.getElementById('oftalmologia_row').style.display = 'none';
+                            document.getElementById('otorrinolaringologia_row').style.display = 'none';
+                        }
+                    });
+                });
+                </script>
+              </div>
+        </div>
+        {%endblock %}

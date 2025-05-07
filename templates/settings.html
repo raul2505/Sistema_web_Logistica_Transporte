@@ -1,0 +1,11 @@
+<h2>Configuración de cuenta</h2>
+<form method="POST">
+  {% csrf_token %}
+  <label>Email:</label>
+  <input type="email" name="email" value="{{ user.email }}" />
+
+  <label>Teléfono:</label>
+  <input type="text" name="phone" value="{{ user.phone }}" />
+
+  <button type="submit">Guardar cambios</button>
+</form>

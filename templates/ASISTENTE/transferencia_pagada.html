@@ -1,0 +1,147 @@
+{% extends 'bases/base_asistente.html' %} 
+{% block title %}Asistente Gerencia | Registro Transferencia Pagada{% endblock %} {% block content %}
+<div class="row my-5">
+  <!-- Listado de Estados de solicitudes de recarga-Facturas -->
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Transferencias Pagadas</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>ID Transferencia</th>
+          <th>Chofer</th>
+          <th>Monto de Recarga</th>
+          <th>Ruta</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for factura in transferenciasPagadas %}
+        <tr>
+          <td>{{ factura.id|add:1000 }}</td>
+          <td>{{ factura.chofer }}</td>
+          <td>S/. {{ factura.montoRecarga|floatformat:2 }}</td>
+          <td>{{ factura.ruta }}</td>
+          
+
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- Formulario de Registro de Gasto Adicional -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Datos de la Transferencia</h3>
+      <form method="POST" action="{% url 'transferencia_pagada_action_simple' action='crear' %}" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_chofer">Chofer</label></td>
+              <td>{{ form.chofer }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_descripcion">Descripcion</label></td>
+              <td>{{ form.descripcion }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_fecha">Fecha</label></td>
+              <td>{{ form.fecha }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_monto">Monto solicitado</label></td>
+              <td>{{ form.monto }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_estado">Estado</label></td>
+              <td>{{ form.estado }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_factura">Comprobante</label></td>
+              <td>{{ form.factura }}</td>
+            </tr>
+
+            
+            
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Gasto Adicional -->
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Registros de Gastos Adicionales</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>ID Transferencia</th>
+          <th>Chofer</th>
+          <th>Descripción</th>
+          <th>Fecha</th>
+          <th>Monto Solicitado</th>
+          <th>Estado</th>
+          <th>Comprobante</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for gasto in recepcion_facturas %}
+        <tr>
+          <td>{{ gasto.id|add:1000 }}</td>
+          <td>{{ gasto.chofer }}</td>
+          <td>{{ gasto.descripcion }}</td>
+          <td>{{ gasto.fecha }}</td>
+          <td>S/. {{ gasto.monto|floatformat:2 }}</td>
+          <td>{{ gasto.estado }}</td>
+          <td>
+            {% if gasto.factura %}
+                <!-- Botón para abrir el modal -->
+                <!-- Usa el ID de 'gasto' para el modal -->
+                <button type="button" class="btn btn-primary"
+                        data-bs-toggle="modal"
+                        data-bs-target="#facturaModal{{ gasto.id }}">
+                    Ver Factura
+                </button>
+    
+                <!-- Modal de Bootstrap -->
+                <div class="modal fade"
+                     id="facturaModal{{ gasto.id }}"
+                     tabindex="-1"
+                     aria-labelledby="facturaModalLabel{{ gasto.id }}"
+                     aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title"
+                                    id="facturaModalLabel{{ gasto.id }}">
+                                    Factura #{{ gasto.id|add:1000 }}
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <!-- Aquí también usa gasto.factura.url -->
+                                <img src="{{ gasto.factura.url }}"
+                                     class="img-fluid rounded shadow"
+                                     alt="Factura de {{ gasto.chofer }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <span class="text-muted">No adjunta</span>
+            {% endif %}
+        </td>
+
+
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}  

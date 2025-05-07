@@ -1,0 +1,92 @@
+{% extends 'bases/base_gerente.html' %}
+{% block title %} Dashboard de Gerente General {% endblock %}
+{% block page_title %} GERENTE GENERAL {% endblock %}
+{% block content %}
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h1>Listado de Usuarios</h1>
+    <form method="get">
+      <table class="table table-bordered table-striped">
+        <thead>
+          <!-- Fila de filtros -->
+          <tr>
+            <th>
+              <input type="text" name="username" class="form-control" placeholder="Filtrar usuario" value="{{ request.GET.username }}">
+            </th>
+            <th>
+              <select name="group" class="form-control">
+                <option value="">Todos</option>
+                {% for group in groups %}
+                  <option value="{{ group.id }}" {% if request.GET.group == group.id|stringformat:"s" %}selected{% endif %}>
+                    {{ group.name }}
+                  </option>
+                {% endfor %}
+              </select>
+            </th>
+            <th>
+              <input type="text" name="empresa" class="form-control" placeholder="Filtrar empresa" value="{{ request.GET.empresa }}">
+            </th>
+            <th>
+              <input type="text" name="first_name" class="form-control" placeholder="Filtrar nombres" value="{{ request.GET.first_name }}">
+            </th>
+            <th>
+              <input type="text" name="last_name" class="form-control" placeholder="Filtrar apellidos" value="{{ request.GET.last_name }}">
+            </th>
+            <th>
+              <input type="text" name="dni" class="form-control" placeholder="Filtrar DNI" value="{{ request.GET.dni }}">
+            </th>
+            <th>
+              <input type="text" name="phone" class="form-control" placeholder="Filtrar teléfono" value="{{ request.GET.phone }}">
+            </th>
+          </tr>
+          <!-- Fila de encabezados -->
+          <tr>
+            <th>Usuario</th>
+            <th>Grupo(s)</th>
+            <th>Empresa</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>DNI</th>
+            <th>Teléfono</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for user in usuarios %}
+          <tr>
+            <td>{{ user.username }}</td>
+            <td>
+              {% if user.groups.all %}
+                {% for group in user.groups.all %}
+                  {{ group.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+              {% else %}
+                Sin grupo
+              {% endif %}
+            </td>
+            <td>
+              {% if user.empresa %}
+                {{ user.empresa.nombre_empresa }}
+              {% else %}
+                Sin empresa
+              {% endif %}
+            </td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.dni }}</td>
+            <td>{{ user.phone }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="7">No hay usuarios registrados.</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      <div class="mt-3">
+        <button type="submit" class="btn btn-primary">Filtrar</button>
+        <a href="{% url 'listar_usuarios' %}" class="btn btn-secondary">Limpiar filtros</a>
+      </div>
+    </form>
+  </section>
+</div>
+{% endblock %}

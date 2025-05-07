@@ -1,0 +1,38 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Editar Mecanico</h3>
+      <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_foto">Foto del mecanico</label></td>
+              <td>{{ form.foto }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_nombres">Nombres</label></td>
+              <td>{{ form.nombres }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_apellidos">Apellidos</label></td>
+              <td>{{ form.apellidos }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_telefono">Telefono</label></td>
+              <td>{{ form.telefono }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+{% endblock %}

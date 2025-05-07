@@ -1,0 +1,99 @@
+{% extends 'bases/base_asistente.html' %} 
+{% block title %}Asistente Gerencia | Aprobar solicitud{% endblock %} {% block content %}
+<div class="row my-5">
+    <!-- Listado de Camiones -->
+    <div class="col-12">
+    <h3 class="fs-4 mb-3">Facturas recibidas</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+        <thead>
+        <tr>
+            <th>ID Solicitud</th>
+            <th>Chofer</th>
+            <th>Fecha</th>
+            <th>Monto de Recarga</th>
+            <th>Ruta</th>
+            <th>Estado</th>
+            
+        </tr>
+        </thead>
+        <tbody>
+        {% for solicitud in combus_extra_choferes %}
+        <tr>
+            <td>{{ solicitud.id|add:1000 }}</td>
+            <td>{{ solicitud.chofer }}</td>
+            <td>{{ solicitud.fecha }}</td>
+            <td>S/. {{ solicitud.montoRecarga|floatformat:2 }}</td>
+            <td>{{ solicitud.ruta }}</td>
+            <td>
+                {% if solicitud.estado == 'En proceso' %}
+                <a
+                  href="{% url 'cambiar_estado_solicitud' solicitud.id 'Aprobado' %}"
+                  class="btn btn-success btn-sm"
+                >
+                  Aprobar
+                </a>
+                <button
+                  type="button"
+                  class="btn btn-danger btn-sm"
+                  data-bs-toggle="modal"
+                  data-bs-target="#modalRechazo{{ solicitud.id }}"
+                >
+                  Rechazar
+                </button>
+        
+                <!-- Modal para indicar motivo -->
+                <div
+                  class="modal fade"
+                  id="modalRechazo{{ solicitud.id }}"
+                  tabindex="-1"
+                  aria-labelledby="modalRechazoLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog">
+                    <form
+                      method="post"
+                      action="{% url 'cambiar_estado_solicitud' solicitud.id 'Rechazado' %}"
+                    >
+                      {% csrf_token %}
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title">Motivo de Rechazo</h5>
+                          <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                          ></button>
+                        </div>
+                        <div class="modal-body">
+                          <textarea
+                            name="motivo"
+                            class="form-control"
+                            rows="4"
+                            placeholder="Explique el motivo del rechazo..."
+                            required
+                          ></textarea>
+                        </div>
+                        <div class="modal-footer">
+                          <button type="submit" class="btn btn-danger">Rechazar</button>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+                {% else %}
+                <span
+                  class="badge {% if solicitud.estado == 'Aprobado' %} bg-success {% elif solicitud.estado == 'Rechazado' %} bg-danger {% endif %}"
+                >
+                  {{ solicitud.estado|capfirst }}
+                </span>
+                {% endif %}
+              </td>
+            
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}               

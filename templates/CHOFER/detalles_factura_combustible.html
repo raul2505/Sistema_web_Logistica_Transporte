@@ -1,0 +1,47 @@
+{% extends 'bases/base_chofer.html' %} 
+{% block title %}Chofer | Detalles de factura de combustible{% endblock %}  {% block content %}
+<div class="row my-5">
+    <!-- Formulario de Registro -->
+    <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+        <h3 class="fs-4 mb-3">Detalles de ruta</h3>
+        
+        <form action="" method="post" enctype="multipart/form-data">
+        
+        <table class="table table-bordered">
+            <tbody>
+            <tr>
+                <td><label for="id_monto">Monto de la factura</label></td>
+                <td>{{ form.monto }}</td>
+                </tr>
+                <tr>
+                <td><label for="id_placa">Placa del vehículo</label></td>
+                <td>{{ form.placa }}</td>
+                </tr>
+                <tr>
+                <td><label for="id_ruc">Número de RUC</label></td>
+                <td>{{ form.ruc }}</td>
+                </tr>
+                <tr>
+                <td><label for="id_fecha">Fecha</label></td>
+                <td>{{ form.fecha }}</td>
+                </tr>
+                <tr>
+                <td><label for="id_chofer">Chofer</label></td>
+                <td>{{ form.chofer }}</td>
+                </tr>
+                <tr>
+                <td><label for="id_facturaAdjunta">Factura adjunta</label></td>
+                <td>{{ form.factura }}</td>
+                </tr>
+            </tbody>
+        </table>
+        
+        </form>
+    </section>
+    </div>
+
+    <!-- Listado de Camiones -->
+    
+</div>
+{% endblock %}

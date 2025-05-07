@@ -1,0 +1,89 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_chofer.html' %}
+{% block title %} TRANSPORTE VERITO E.I.R.L {% endblock %}
+{% block page_title %} CHOFER {% endblock %}
+{% block content %}
+<div class="row my-5">
+  <div class="col text-center">
+    <h1 class="display-4 fw-bold mb-4">Bienvenido Chofer</h1>
+    <p class="lead mb-4">
+      Accede a la información clave sobre tu camión, rutas asignadas y
+      documentos de transporte.
+    </p>
+
+    <div class="row g-4 justify-content-center">
+      <!-- Información del Camión Asignado -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-truck fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title">Tu Camión Asignado</h5>
+            <p class="card-text">
+              Consulta detalles sobre el camión que tienes asignado.
+            </p>
+            <a href="#" class="btn btn-primary">Ver Camión</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hojas de Ruta Asignadas -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-map-marked-alt fa-3x mb-3 text-success"></i>
+            <h5 class="card-title">Hojas de Ruta</h5>
+            <p class="card-text">
+              Revisa las rutas y destinos asignados para tus entregas.
+            </p>
+            <a href="#" class="btn btn-success">Ver Hojas de Ruta</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Guías de Remisión Asociadas -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-file-invoice fa-3x mb-3 text-warning"></i>
+            <h5 class="card-title">Guías de Remisión</h5>
+            <p class="card-text">
+              Consulta las guías de remisión asociadas a tus rutas.
+            </p>
+            <a href="#" class="btn btn-warning">Ver Guías de Remisión</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 justify-content-center mt-4">
+      <!-- Notificaciones -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-bell fa-3x mb-3 text-info"></i>
+            <h5 class="card-title">Notificaciones</h5>
+            <p class="card-text">
+              Mantente informado sobre cambios en rutas y documentos.
+            </p>
+            <a href="#" class="btn btn-info">Ver Notificaciones</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reporte de Incidencias -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-exclamation-triangle fa-3x mb-3 text-danger"></i>
+            <h5 class="card-title">Reporte de Incidencias</h5>
+            <p class="card-text">
+              Informa sobre cualquier incidente en la ruta o con el camión.
+            </p>
+            <a href="#" class="btn btn-danger">Reportar Incidencia</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

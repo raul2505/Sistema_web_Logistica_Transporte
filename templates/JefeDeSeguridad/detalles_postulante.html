@@ -1,0 +1,111 @@
+{% extends 'bases/base_jefeseguridad.html' %} {% block title %} TRANSPORTE
+VERITO E.I.R.L {%endblock %} {% block page_title %} Jefe seguridad {%endblock %}
+{% block content %}
+
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Detalles del Postulante</h3>
+
+      <form
+        action="detalles_clinica"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_nombre">Nombre/s del postulante</label></td>
+              <td>{{ postulante.nombres }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_apellido">Apellidos del postulante</label>
+              </td>
+              <td>{{ postulante.apellidos }}</td>
+            </tr>
+            <tr>
+              <td><label>Tipo de Licencia:</label></td>
+              <td>{{ postulante.tipo_licencia }}</td>
+            </tr>
+            <tr>
+              <td><label>Formato de Licencia:</label></td>
+              <td>{{ postulante.tipo_licencia_formato }}</td>
+            </tr>
+            <tr>
+              <td><label>Licencia Frontal:</label></td>
+              <td>
+                {% if postulante.licencia_frontal %}
+                <img
+                  src="{{ postulante.licencia_frontal.url }}"
+                  alt="Licencia Frontal"
+                  width="200"
+                />
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Licencia Posterior:</label></td>
+              <td>
+                {% if postulante.licencia_posterior %}
+                <img
+                  src="{{ postulante.licencia_posterior.url }}"
+                  alt="Licencia Posterior"
+                  width="200"
+                />
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Licencia Electrónica:</label></td>
+              <td>
+                {% if postulante.licencia_electronica %}
+                <img
+                  src="{{ postulante.licencia_electronica.url }}"
+                  alt="Licencia Electrónica"
+                  width="800"
+                />
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Clínica:</label></td>
+              <td>{{ postulante.clinica }}</td>
+            </tr>
+            <tr>
+              <td><label>Exámenes Requeridos:</label></td>
+              <td>
+                {% if postulante.examenes_requeridos.all %}
+                <ul class="list-unstyled mb-0">
+                  {% for examen in postulante.examenes_requeridos.all %}
+                  <li class="mb-2">
+                    <span class="badge bg-primary"
+                      >{{ examen.get_tipo_display }}</span
+                    >
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted mb-0">No hay exámenes asignados</p>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label for="id_estado">Estado</label></td>
+              <td>{{ postulante.estado }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="text-center mt-3">
+          <a href="{% url 'clinicapostulante' %}" class="btn btn-secondary"
+            >Volver</a
+          >
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+{%endblock %}

@@ -1,0 +1,35 @@
+{% extends 'bases/base_asistente.html' %}
+{% load static %}
+{% block title %}Asistente Gerencia | Listado de Gastos Adicionales{% endblock %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Registros de Gastos Adicionales</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>ID Gasto</th>
+          <th>Chofer</th>
+          <th>Placa</th>
+          <th>Ruta</th>
+          <th>Monto de recarga</th>
+          <th>Tipo de Gasto</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for gasto in gastosAdicionales %}
+        <tr>
+          <td>{{ gasto.idGasto|add:1000 }}</td>
+          <td>{{ gasto.chofer }}</td>
+          <td>{{ gasto.placa }}</td>
+          <td>{{ gasto.ruta }}</td>
+          <td>S/. {{ gasto.montoRecarga|floatformat:2 }}</td>
+          <td>{{ gasto.tipoGasto }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

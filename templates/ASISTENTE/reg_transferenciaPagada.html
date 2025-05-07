@@ -1,0 +1,48 @@
+{% extends 'bases/base_asistente.html' %} 
+{% block title %}Asistente Gerencia | Registro Trasnferencias Pagadas{% endblock %} {% block content %}
+<div class="row my-5">
+    <!-- Formulario de Registro -->
+    <div class="col-12 mb-5">
+      <section class="form-container p-4 bg-white rounded shadow-sm">
+        <h3 class="fs-4 mb-3">Datos de la Transferencia</h3>
+        <form method="POST" action="{% url 'transferencia_pagada_action_simple' action='crear' %}" enctype="multipart/form-data" >
+          {% csrf_token %}
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td><label for="id_chofer">Chofer</label></td>
+                <td>{{ form.chofer }}</td>
+              </tr>
+              <tr>
+                <td><label for="id_placa">Descripcion</label></td>
+                <td>{{ form.descripcion }}</td>
+              </tr>
+              <tr>
+                <td><label for="id_ruta">Fecha</label></td>
+                <td>{{ form.fecha }}</td>
+              </tr>
+              <tr>
+                <td><label for="id_montoRecarga">Monto solicitado</label></td>
+                <td>{{ form.monto }}</td>
+              </tr>
+              <tr>
+                <td><label for="id_montoRecarga">Estado</label></td>
+                <td>{{ form.estado }}</td>
+              </tr>
+              <tr>
+                <td><label for="id_factura">Factura adjunta</label></td>
+                <td>{{ form.factura }}</td>
+              </tr>
+              
+              
+            </tbody>
+          </table>
+          <div class="text-center mt-3">
+            <button type="submit" class="btn btn-success">Registrar transferencia</button>
+          </div>
+        </form>
+      </section>
+    </div>
+  
+  </div>
+  {% endblock %}

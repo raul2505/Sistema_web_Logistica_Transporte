@@ -1,0 +1,94 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Registrar Nuevo Mecanico</h3>
+      <form
+        method="POST"
+        action="{% url 'crear_mecanico' action='crear' %}"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_foto">Foto del mecanico</label></td>
+              <td>{{ form.foto }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_nombres">Nombres</label></td>
+              <td>{{ form.nombres }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_apellidos">Apellidos</label></td>
+              <td>{{ form.apellidos }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_telefono">Telefono</label></td>
+              <td>{{ form.telefono }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Crear Mecanico</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Mecanicos Registrados</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>Nombres y Apellidos</th>
+          <th>Teléfono</th>
+          <th>Foto</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mecanico in mecanicos %}
+        <tr>
+          <td>{{ mecanico.nombres }} {{ mecanico.apellidos }}</td>
+          <td>{{ mecanico.telefono }}</td>
+          <td>
+            {% if mecanico.foto %}
+            <img src="{{ mecanico.foto.url }}" alt="Foto" width="50" />
+            {% else %} No disponible {% endif %}
+          </td>
+          <td>
+            <a
+              href="{% url 'editar_mecanico' mecanico.id %}"
+              class="btn btn-primary btn-sm"
+              >Editar</a
+            >
+            <form
+              method="POST"
+              action="{% url 'eliminar_mecanico' 'eliminar' mecanico.id %}"
+              style="display: inline-block"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">
+                Eliminar
+              </button>
+            </form>
+            <a
+              href="{% url 'detalles_mecanico' mecanico.id %}"
+              class="btn btn-info btn-sm"
+              aria-label="Mostrar detalles"
+            >
+              Detalles
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

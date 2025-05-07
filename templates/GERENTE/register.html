@@ -1,0 +1,82 @@
+{% extends 'bases/base_gerente.html' %} {% block title %} Dashboard de Gerente
+General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
+{%block content %}
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h3 class="fs-4 mb-3">Registrar Usuario</h3>
+    <form method="POST">
+      {% csrf_token %}
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td>
+              <label for="id_username" class="form-label"
+                >Nombre de Usuario</label
+              >
+            </td>
+            <td>{{ form.username }}</td>
+            <small class="text-danger">{{ form.username.errors }}</small>
+          </tr>
+          <tr>
+            <td>
+              <label for="id_email" class="form-label"
+                >Correo Electrónico</label
+              >
+            </td>
+            <td>{{ form.email }}</td>
+            <small class="text-danger">{{ form.email.errors }}</small>
+          </tr>
+          <tr>
+            <td>
+              <label for="id_dni" class="form-label">DNI</label>
+            </td>
+            <td>{{ form.dni }}</td>
+            <small class="text-danger">{{ form.dni.errors }}</small>
+          </tr>
+          <tr>
+            <td>
+              <label for="id_phone" class="form-label">Teléfono</label>
+            </td>
+            <td>{{ form.phone }}</td>
+            <small class="text-danger">{{ form.phone.errors }}</small>
+          </tr>
+          <tr>
+            <td>
+              <label for="id_empresa" class="form-label">EMPRESA</label>
+            </td>
+            <td>{{ form.empresa }}</td>
+            <small class="text-danger">{{ form.empresa.errors }}</small>
+          </tr>
+          <tr>
+            <td>
+              <label for="id_password1" class="form-label">Contraseña</label>
+            </td>
+            <td>{{ form.password1 }}</td>
+            <small class="text-danger">{{ form.password1.errors }}</small>
+          </tr>
+          <tr>
+            <td>
+              <label for="id_password2" class="form-label"
+                >Confirmar Contraseña</label
+              >
+            </td>
+            <td>{{ form.password2 }}</td>
+            <small class="text-danger">{{ form.password2.errors }}</small>
+          </tr>
+          <tr>
+            <td>
+              <label class="form-label">Selecciona los Roles</label>
+            </td>
+            <td>{{ form.roles }}</td>
+            <small class="text-danger">{{ form.roles.errors }}</small>
+          </tr>
+        </tbody>
+      </table>
+      <div class="text-center mt-3">
+        <button type="submit" class="btn btn-success">Registrar Usuario</button>
+      </div>
+    </form>
+  </section>
+</div>
+
+{% endblock %}

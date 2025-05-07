@@ -1,0 +1,51 @@
+{% extends 'bases/base_asistente.html' %}
+{% load static %}
+{% block title %}Asistente Gerencia | Registro Gasto Adicional{% endblock %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Datos para registro de Gasto Adicional</h3>
+      
+      <!-- action: la URL que maneja la creación del gasto, por ejemplo -->
+      <form method="POST" action="{% url 'gastoAdicional_action_simple' action='crear' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_idGasto">ID Gasto</label></td>
+              <td>{{ form.idGasto }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_chofer">Chofer</label></td>
+              <td>{{ form.chofer }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_placa">Placa</label></td>
+              <td>{{ form.placa }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_ruta">Ruta Adicional</label></td>
+              <td>{{ form.ruta }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_montoRecarga">Monto solicitado</label></td>
+              <td>{{ form.montoRecarga }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipoGasto">Tipo de gasto</label></td>
+              <td>{{ form.tipoGasto }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+{% endblock %}

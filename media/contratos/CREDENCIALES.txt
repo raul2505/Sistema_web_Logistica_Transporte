@@ -1,0 +1,31 @@
+Representante
+
+USER  	 	PASSWORD
+Jesus  		Rodriguez123
+Jose   		Suarez123
+Veronica 	Rosales123
+
+Jefe de Despacho
+
+USER	PASSWORD
+Carlos	Mendoza123
+Laura	Ramirez123
+Andres	Fernandez123
+
+Asistente
+USER	PASSWORD
+Miguel	Martinez123
+
+contador
+Ana	Lopez123
+
+mantenimiento
+Diego	Garcia123
+
+chofer
+Omar	Hernandez123
+Pablo	Gonzalez123
+Juan	Torres123
+
+gerente
+Giovana Monago123

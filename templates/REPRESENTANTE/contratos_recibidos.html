@@ -1,0 +1,114 @@
+<!-- templates/gerente/registro_aceptacion.html -->
+
+{% extends "bases/base_representante.html" %} {% block content %}
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h2>Seguimiento de Solicitudes de Alianza</h2>
+    {% if contratos %}
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Solicitud</th>
+          <th>Empresa</th>
+          <th>Estado</th>
+          <th>Contrato</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contrato in contratos %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ contrato.solicitud }}</td>
+          <td>{{ contrato.empresa.nombre_empresa}}</td>
+
+          <td>
+            {% if contrato.estado == 'pendiente' %}
+            <a
+              href="{% url 'cambiar_estado_contrato' contrato.id 'aprobada' %}"
+              class="btn btn-success btn-sm"
+            >
+              Aprobar
+            </a>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#modalRechazo{{ contrato.id }}"
+            >
+              Rechazar
+            </button>
+
+            <!-- Modal para indicar motivo -->
+            <div
+              class="modal fade"
+              id="modalRechazo{{ contrato.id }}"
+              tabindex="-1"
+              aria-labelledby="modalRechazoLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <form
+                  method="post"
+                  action="{% url 'cambiar_estado_contrato' contrato.id 'rechazada' %}"
+                >
+                  {% csrf_token %}
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Motivo de Rechazo</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <textarea
+                        name="motivo"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Explique el motivo del rechazo..."
+                        required
+                      ></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-danger">
+                        Rechazar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            {% else %}
+            <span
+              class="badge {% if contrato.estado == 'aprobada' %} bg-success {% elif contrato.estado == 'rechazada' %} bg-danger {% endif %}"
+            >
+              {{ contrato.estado|capfirst }}
+            </span>
+            {% endif %}
+          </td>
+
+          <td>
+            {% if contrato.documento %}
+            <a
+              href="{{ contrato.documento.url }}"
+              class="btn btn-info btn-sm"
+              target="_blank"
+              >Ver Archivo</a
+            >
+            {% else %}
+            <span class="text-secondary">No adjunto</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-muted">No hay ningun contrato.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,60 @@
+{% extends 'bases/base_chofer.html' %} 
+{% block title %}Chofer | Solicitud de recarga de combustible{% endblock %} {% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Registrar Solicitud de Recarga de Combustible Extra</h3>
+      <form method="POST" action="{% url 'combus_extra_chofer_action_simple' action='crear' %}" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_chofer">Nombre del chofer</label></td>
+              <td>{{ form.chofer }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_placa">Placa</label></td>
+              <td>{{ form.placa }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_ruta">Ruta a entregar</label></td>
+              <td>{{ form.ruta }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_montoRecarga">Monto de recarga</label></td>
+              <td>{{ form.montoRecarga }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_montoRecarga">Fecha</label></td>
+              <td>{{ form.fecha }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipoGasto">Tipo de gasto</label></td>
+              <td>{{ form.tipoGasto }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipoCombustible">Tipo de combustible</label></td>
+              <td>{{ form.tipoCombustible }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_metodoPago">Metodo de Pago</label></td>
+              <td>{{ form.metodoPago }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_metodoPago">Estado</label></td>
+              <td>{{ form.estado }}</td>
+            </tr>
+            
+            
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Enviar solicitud</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+</div>
+{% endblock %}

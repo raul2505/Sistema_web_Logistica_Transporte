@@ -1,0 +1,42 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_chofer.html' %}
+{% block title %} TRANSPORTE VERITO E.I.R.L {% endblock %}
+{% block page_title %} CHOFER {% endblock %}
+{% block content %}
+<html lang="es">
+  <body>
+    <div class="container mt-4">
+      <div class="card shadow-sm p-4">
+        <h2 class="mb-4 text-center text-success">
+          Crear Reporte para la Guía #{{ guia.id }}
+        </h2>
+
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="mb-3">
+            <label for="observaciones" class="form-label">Observaciones:</label>
+            {{ form.observaciones }}
+          </div>
+          <div class="mb-3">
+            <label for="foto_transportista" class="form-label"
+              >Foto Guía Transportista:</label
+            >
+            {{ form.foto_transportista }}
+          </div>
+          <div class="mb-3">
+            <label for="foto_remitente" class="form-label"
+              >Foto Guía Remitente:</label
+            >
+            {{ form.foto_remitente }}
+          </div>
+          <button type="submit" class="btn btn-success">
+            <i class="fas fa-save"></i> Guardar Reporte
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
+{% endblock %}

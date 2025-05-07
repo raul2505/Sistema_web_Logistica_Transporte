@@ -1,0 +1,135 @@
+{% extends 'bases/base_asistente.html' %} 
+{% block title %}Asistente Gerencia | Registro Gasto Adicional{% endblock %} {% block content %}
+<div class="row my-5">
+  <!-- Listado de Estados de solicitudes de recarga-Facturas -->
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Estados de solicitudes de recarga-Facturas</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>ID Solicitud</th>
+          <th>Chofer</th>
+          <th>Fecha</th>
+          <th>Monto de Recarga</th>
+          <th>Ruta</th>
+          <th>Factura adjunta</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for factura in recepcion_facturas %}
+        <tr>
+          <td>{{ factura.id|add:1000 }}</td>
+          <td>{{ factura.chofer }}</td>
+          <td>{{ factura.fecha }}</td>
+          <td>S/. {{ factura.monto|floatformat:2 }}</td>
+          <td>{{ factura.ruta }}</td>
+          <td>
+            {% if factura.factura %}
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facturaModal{{ factura.id }}">
+                    Ver Factura
+                </button>
+        
+                <!-- Modal de Bootstrap -->
+                <div class="modal fade" id="facturaModal{{ factura.id }}" tabindex="-1" aria-labelledby="facturaModalLabel{{ factura.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="facturaModalLabel{{ factura.id }}">Factura #{{ factura.id|add:1000 }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="{{ factura.factura.url }}" class="img-fluid rounded shadow" alt="Factura de {{ factura.chofer }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <span class="text-muted">No adjunta</span>
+            {% endif %}
+        </td>
+
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <!-- Formulario de Registro de Gasto Adicional -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Datos para registro de Gasto Adicional</h3>
+      <form method="POST" action="{% url 'gastoAdicional_action_simple' action='crear' %}" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_idGasto">ID Gasto</label></td>
+              <td>{{ form.idGasto }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_chofer">Chofer</label></td>
+              <td>{{ form.chofer }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_placa">Placa</label></td>
+              <td>{{ form.placa }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_ruta">Ruta Adicional</label></td>
+              <td>{{ form.ruta }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_montoRecarga">Monto solicitado</label></td>
+              <td>{{ form.montoRecarga }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipoGasto">Tipo de gasto</label></td>
+              <td>{{ form.tipoGasto }}</td>
+            </tr>
+
+            
+            
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Guardar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Gasto Adicional -->
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Registros de Gastos Adicionales</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>ID Gasto</th>
+          <th>Chofer</th>
+          <th>Placa</th>
+          <th>Ruta</th>
+          <th>Monto de recarga</th>
+          <th>Tipo de Gasto</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for gasto in gastosAdicionales %}
+        <tr>
+          <td>{{ gasto.idGasto|add:1000 }}</td>
+          <td>{{ gasto.chofer }}</td>
+          <td>{{ gasto.placa }}</td>
+          <td>{{ gasto.ruta }}</td>
+          <td>S/. {{ gasto.montoRecarga|floatformat:2 }}</td>
+          <td>{{ gasto.tipoGasto }}</td>
+
+
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}  

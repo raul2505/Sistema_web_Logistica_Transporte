@@ -1,0 +1,87 @@
+{% extends 'bases/base_jefe_despacho.html' %} 
+{% block title %}Jefe de Despacho | Registro Ruta Adicional{% endblock %} {% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Registrar Ruta Adicional</h3>
+      <form method="POST" action="{% url 'ruta_action_simple' action='crear' %}" enctype="multipart/form-data" >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <th><h4>Datos del chofer</h4></th>
+            <tr>
+              <td><label for="id_chofer">Chofer</label></td>
+              <td>{{ form.chofer }}</td>
+            </tr>
+            <th><h4>Información del vehículo</h4></th>
+            <tr>
+              <td><label for="id_camion">Camion</label></td>
+              <td>{{ form.camion }}</td>
+            </tr>
+            <th><h4>Información de ruta</h4></th>
+            <tr>
+              <td><label for="id_partida">Punto de partida</label></td>
+              <td>{{ form.partida }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_llegada">Punto de llegada</label></td>
+              <td>{{ form.llegada }}</td>
+            </tr>
+            <tr>
+                <td><label for="id_fecha">Fecha</label></td>
+                <td>{{ form.fecha }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_carga">Carga</label></td>
+              <td>{{ form.carga }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_destinatario">Destinatario</label></td>
+              <td>{{ form.destinatario }}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Registrar Ruta</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Rutas Registradas</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>Chofer</th>
+          <th>Camion</th>
+          <th>Punto de partida</th>
+          <th>Punto de llegada</th>
+          <th>Fecha</th>
+          <th>Carga</th>
+          <th>Destinatario</th>
+        
+        </tr>
+      </thead>
+      <tbody>
+        {% for ruta in rutas %}
+        <tr>
+          <td>{{ ruta.chofer }}</td>
+          <td>{{ ruta.camion }}</td>
+          <td>{{ ruta.partida }}</td>
+          <td>{{ ruta.llegada }}</td>
+          <td>{{ ruta.fecha }}</td>
+          <td>{{ ruta.carga }}</td>
+          <td>{{ ruta.destinatario }}</td>
+          
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock %}

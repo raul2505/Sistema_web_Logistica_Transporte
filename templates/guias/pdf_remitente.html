@@ -1,0 +1,246 @@
+<!-- prettier-ignore -->
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Guía Remitente #{{ guia.id }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 40px;
+            line-height: 1.5;
+            color: #333;
+            /* Si tienes una imagen de fondo o watermark, agrégala así:
+               background: url('ruta/imagen.png') no-repeat center center; 
+               background-size: 60%;
+            */
+        }
+
+        .header {
+          display: flex;
+          align-items: center;       /* o flex-start, según necesites */
+          width: 100%;              /* Ocupa todo el ancho */
+          margin-bottom: 5px;
+          /* Puedes usar justify-content: space-between si lo prefieres */
+      }
+      
+      .header-left {
+          flex: 1;                  /* Hace que la columna izquierda crezca y empuje a la derecha */
+      }
+      
+      
+      
+      
+        .header-left h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+            color: rgb(6, 6, 6);
+        }
+        .header-left p {
+            margin: 3px 0;
+            font-size: 14px;
+        }
+
+        /* Contenedor derecho para RUC y Guía */
+        .header-right {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 5px; /* Espacio entre los recuadros */
+            margin-left: auto
+        }
+
+        /* Recuadro base para ambos elementos (RUC y tipo de guía) */
+        .box {
+            border: 2px solid #000;
+            width: 300px;         /* Fija un ancho igual para ambas cajas */
+            min-height: 40px;     /* Altura mínima */
+            display: flex;
+            align-items: center;  
+            justify-content: center; 
+            box-sizing: border-box;
+            padding: 5px 10px;
+        }
+        /* Estilos específicos para cada texto */
+        .ruc-box {
+            font-size: 16px;
+            font-weight: bold;
+        }
+        .guia-type {
+            font-size: 14px;
+            color: rgb(0, 0, 0);
+        }
+
+        /* Separador */
+        hr {
+            border: none;
+            border-top: 1px solid #000;
+            margin: 10px 0;
+        }
+
+        /* Información principal en párrafos */
+        .main-info p {
+            margin: 6px 0;
+            font-size: 14px;
+            background: rgba(255, 255, 255, 0.8); /* Fondo semitransparente (opcional) */
+            display: inline-block;
+            padding: 2px 4px;
+        }
+        .main-info p strong {
+            font-weight: bold;
+        }
+
+        /* Sección de detalles */
+        .details-title {
+            margin-top: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: underline;
+            background: rgba(255, 255, 255, 0.8);
+            display: inline-block;
+            padding: 2px 4px;
+        }
+        .details-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+        .details-table thead th {
+            background-color: #f8f9fa;
+            text-align: left;
+            color: #333;
+        }
+        .details-table th, .details-table td {
+            border: 1px solid #000;
+            padding: 6px;
+            background: rgba(255, 255, 255, 0.85);
+        }
+
+        /* Footer con costo y peso */
+        .footer-info {
+            margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid #ccc;
+            padding-top: 8px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .footer-info p {
+            margin: 0;
+            font-size: 14px;
+        }
+        .footer-info p strong {
+            color: #000;
+        }
+
+        /* Sección para firma */
+        .firma-section {
+            margin-top: 30px;
+            border-top: 1px solid #000;
+            padding-top: 10px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .firma-section p {
+            margin: 4px 0;
+        }
+        .firma-section .firma-line {
+            margin: 0 auto 5px;
+            width: 250px;
+            border-bottom: 1px solid #000;
+        }
+    </style>
+</head>
+<body>
+
+<!-- Encabezado -->
+<div class="header">
+    <div class="header-left">
+        <h1>{{ guia.empresa_remitente.nombre_empresa }}</h1>
+        <p>
+          Cal. La Niña Mz. 8 Lote 12 Dpto 201 Urb - Paolo Campos (Ingenieros Javier Prado)<br>
+          La Molina Lima-Lima
+        </p>
+        <p>Teléfono: 987 256 132 | Correo: transporteVerito@org.pe</p>
+    </div>
+    <div class="header-right">
+        <div class="box ruc-box"><strong>RUC:</strong> {{ guia.empresa_remitente.ruc_empresa }}</div>
+        <div class="box guia-type">GUÍA DE REMISIÓN - REMITENTE </div>
+    </div>
+</div>
+
+<hr />
+
+<!-- Información principal -->
+<div class="main-info">
+    <p>
+      <strong>Fecha Emisión:</strong> {{ guia.fecha_emision }}
+      &nbsp;&nbsp;
+      <strong>Fecha Traslado:</strong> {{ guia.fecha_traslado }}
+      &nbsp;&nbsp;
+      <strong>Fecha Traslado Chofer:</strong> {{ guia.fecha_traslado_chofer}}
+    </p>
+    <p>
+      <strong>Ubicación de Partida:</strong> {{ guia.hoja_de_ruta.partida_ubicacion.direccion }}<br>
+      <strong>Ubicación de Llegada:</strong> {{ guia.hoja_de_ruta.llegada_ubicacion.direccion }}
+    </p>
+    <p>
+      <strong>Empresa Remitente:</strong> {{ guia.empresa_remitente }}<br>
+      <strong>Empresa Destinataria:</strong> {{ guia.empresa_destinataria }}
+    </p>
+    <p>
+      <strong>Chofer:</strong> {{ guia.hoja_de_ruta.chofer.nombres }} {{ guia.hoja_de_ruta.chofer.apellidos }}
+      &nbsp;|&nbsp;
+      <strong>Licencia:</strong> {{ guia.hoja_de_ruta.chofer.tipo_licencia }} {{ guia.hoja_de_ruta.chofer.numero_licencia }}
+    </p>
+    <p>
+      <strong>Camión (Placa):</strong> {{ guia.hoja_de_ruta.camion.placa }}
+      &nbsp;|&nbsp;
+      <strong>Marca/Modelo:</strong> {{ guia.hoja_de_ruta.camion.marca }} {{ guia.hoja_de_ruta.camion.modelo }}
+    </p>
+    <p>
+      <strong>Estado:</strong> {{ guia.hoja_de_ruta.estado }}
+      &nbsp;|&nbsp;
+      <strong>Distancia:</strong> {{ guia.hoja_de_ruta.distancia }} km
+    </p>
+</div>
+
+<!-- Detalles de la guía -->
+<div class="details-title">Detalles de la Guía de Remisión</div>
+<table class="details-table">
+    <thead>
+        <tr>
+            <th>Descripción</th>
+            <th>Cantidad</th>
+            <th>Unidad</th>
+            <th>Peso Unitario</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for d in guia.detalles.all %}
+        <tr>
+            <td>{{ d.descripcion }}</td>
+            <td>{{ d.cantidad }}</td>
+            <td>{{ d.unidad }}</td>
+            <td>{{ d.peso_unitario }} kg</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
+<!-- Footer con costo de traslado y peso total, uno a cada extremo -->
+<div class="footer-info">
+    <p><strong>Observaciones:</strong> {{ guia.observaciones }}</p>
+    <p><strong>Peso (KG):</strong> {{ guia.peso_total }}</p>
+</div>
+
+<!-- Sección para firma del transportista -->
+<div class="firma-section">
+    <div class="firma-line"></div>
+    <p>Recibí Conforme - Sello y Firma (Transportista)</p>
+</div>
+
+</body>
+</html>

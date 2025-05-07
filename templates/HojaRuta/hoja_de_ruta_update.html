@@ -1,0 +1,12 @@
+{% extends 'bases/base_jefe_despacho.html' %} {% block title %}Editar Hoja de
+Ruta{% endblock %} {% block content %}
+<div class="container mt-4">
+  <h1>Editar Hoja de Ruta</h1>
+  <div class="bg-white p-4 shadow-sm rounded">
+    <form method="post">
+      {% csrf_token %} {{ form.as_p }}
+      <button type="submit" class="btn btn-primary">Actualizar</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

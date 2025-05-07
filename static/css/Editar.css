@@ -1,0 +1,161 @@
+/* Reset de márgenes y paddings para todos los elementos */
+.title {
+    font-size: 32px; /* Tamaño más grande */
+    color: #003366;  /* Azul oscuro */
+    font-weight: bold;
+    margin-bottom: 20px;
+    text-align: center; /* Centrado del título */
+    line-height: 1.2; /* Ajusta el espaciado vertical */
+    letter-spacing: 1px; /* Espaciado de letras para dar un toque más elegante */
+  }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  /* Body */
+  body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #1c3c63, #1a76b8);
+    color: #333;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    padding: 20px;
+  }
+  
+  /* Contenedor principal */
+  /* Contenedor principal */
+.container {
+    width: 90%;
+    max-width: 800px;
+    padding: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 200px; /* Aumentado el margen superior para separar más la tarjeta */
+    margin-bottom: 20px; /* Añadido margen inferior para más separación */
+}
+
+  
+  /* Estilo para la tarjeta */
+  /* Estilo para la tarjeta */
+.card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    padding: 20px; /* Reducido el padding interno */
+    width: 100%;
+    max-width: 500px; /* Reducido el ancho máximo */
+    text-align: center;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    margin-top: 20px; /* Añadido margen superior para separación */
+}
+
+/* Efecto hover en la tarjeta */
+.card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 45px rgba(0, 0, 0, 0.15);
+}
+
+  
+  /* Título */
+  .title {
+    font-size: 28px;
+    color: #003366;
+    margin-bottom: 20px;
+    font-weight: bold;
+  }
+  
+  /* Separador */
+  hr {
+    border: 0;
+    border-top: 2px solid #1a76b8;
+    margin-bottom: 30px;
+  }
+  
+  /* Estilo del formulario */
+  .form-group {
+    text-align: left;
+    margin-bottom: 25px;
+  }
+  
+  /* Campos del formulario */
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="file"],
+  textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 8px 0;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    transition: border-color 0.3s;
+  }
+  
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="file"]:focus,
+  textarea:focus {
+    border-color: #1a76b8;
+    outline: none;
+  }
+  
+  /* Estilo de los botones */
+  .btn {
+    padding: 12px 25px;
+    border-radius: 8px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    width: 48%;
+    transition: background-color 0.3s, transform 0.3s;
+  }
+  
+  /* Botón de enviar */
+  .btn-submit {
+    background-color: #007bff;
+    color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-submit:hover {
+    background-color: #005f8d;
+    transform: translateY(-2px);
+  }
+  
+  /* Botón de cancelar */
+  .btn-cancel {
+    background-color: #f1f1f1;
+    color: #333;
+    border: 2px solid #ccc;
+  }
+  
+  .btn-cancel:hover {
+    background-color: #e2e6ea;
+    transform: translateY(-2px);
+  }
+  
+  /* Alineación y espaciado de los botones */
+  .form-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  /* Sombra y detalle para el contenedor */
+  .card {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+  }
+  
+  

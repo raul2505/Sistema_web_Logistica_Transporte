@@ -1,0 +1,23 @@
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+<div class="col-12">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h3>Detalle Motivo de Mantenimiento</h3>
+    <form action="" method="post">
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td><label for="id_camion">Camión</label></td>
+            <td>{{ motivo.camion.placa }}</td>
+          </tr>
+          <tr>
+            <td><label for="id_motivo">Motivo de Mantenimiento</label></td>
+            <td>{{ motivo.motivo }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
+  </section>
+</div>
+{%endblock %}

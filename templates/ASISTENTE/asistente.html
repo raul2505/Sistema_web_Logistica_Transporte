@@ -1,0 +1,53 @@
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+<div class="row my-5">
+  <div class="col text-center">
+    <h1 class="display-4 fw-bold mb-4">
+      Bienvenido al Dashboard del Asistente de Gerencia
+    </h1>
+    <p class="lead mb-4">
+      Administra y supervisa las operaciones diarias de Transporte Verito EIRL
+      de manera eficiente y ordenada.
+    </p>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-users-cog fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title">Gestión de Personal</h5>
+            <p class="card-text">
+              Coordina contratos, asignaciones y gestión de personal de la
+              empresa.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-truck-loading fa-3x mb-3 text-success"></i>
+            <h5 class="card-title">Control de Operaciones</h5>
+            <p class="card-text">
+              Supervisa la distribución de mercadería y logística de Transporte
+              Verito EIRL.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-file-invoice-dollar fa-3x mb-3 text-warning"></i>
+            <h5 class="card-title">Gestión Financiera</h5>
+            <p class="card-text">
+              Administra gastos, presupuestos y reportes financieros de la
+              empresa.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

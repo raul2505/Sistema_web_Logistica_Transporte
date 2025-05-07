@@ -1,0 +1,112 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+<!-- prettier-ignore -->
+<div class="row my-5">
+                  <!-- Formulario de Registro -->
+                  <div class="col-12 mb-5">
+                    <section class="form-container p-4 bg-white rounded shadow-sm">
+                      <h3 class="fs-4 mb-3">Detalles del Postulante</h3>
+                      
+                      <form action="detalles" method="post" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><label for="id_nombre">Nombre/s del postulante</label></td>
+                              <td>{{ postulante.nombres }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_apellido">Apellidos del postulante</label></td>
+                              <td>{{ postulante.apellidos }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_numero_celular">Número de Celular</label></td>
+                              <td>{{ postulante.numero_celular }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_correo">Correo Electrónico</label></td>
+                              <td>{{ postulante.correo }}</td>
+                            </tr>
+                            <tr>
+                                <td><label>DNI Frontal:</label></td>
+                                <td>
+                                    {% if postulante.dni_frontal %}
+                                        <img src="{{ postulante.dni_frontal.url }}" alt="DNI Frontal" width="800">
+                                    {% else %}
+                                        No disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>DNI Posterior:</label></td>
+                                <td>
+                                    {% if postulante.dni_posterior %}
+                                        <img src="{{ postulante.dni_posterior.url }}" alt="DNI Posterior" width="800">
+                                    {% else %}
+                                        No disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Tipo de Licencia:</label></td>
+                                <td>{{ postulante.tipo_licencia }}</td>
+                            </tr>
+                            <tr>
+                                <td><label>Formato de Licencia:</label></td>
+                                <td>{{ postulante.tipo_licencia_formato }}</td>
+                            </tr>
+                            <tr>
+                                <td><label>Licencia Frontal:</label></td>
+                                <td>
+                                    {% if postulante.licencia_frontal %}
+                                        <img src="{{ postulante.licencia_frontal.url }}" alt="Licencia Frontal" width="800">
+                                    {% else %}
+                                        No disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Licencia Posterior:</label></td>
+                                <td>
+                                    {% if postulante.licencia_posterior %}
+                                        <img src="{{ postulante.licencia_posterior.url }}" alt="Licencia Posterior" width="800">
+                                    {% else %}
+                                        No disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><label>Licencia Electrónica:</label></td>
+                                <td>
+                                    {% if postulante.licencia_electronica %}
+                                        <img src="{{ postulante.licencia_electronica.url }}" alt="Licencia Electrónica" width="800">
+                                    {% else %}
+                                        No disponible
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_experiencia">Tiempo de Experiencia de 2 años a más</label></td>
+                              <td>{{ postulante.experiencia }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_estado">Estado</label></td>
+                              <td>{{ postulante.estado }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        
+                        <div class="text-center mt-3">
+                          <a href="{% url 'sendpostulante' %}" class ="btn btn-secondary">Volver</a>
+                        </div>
+
+                      </form>
+                    </section>
+                  </div>
+                
+                  <!-- Listado de Camiones -->
+                  
+                </div>
+{%endblock %}

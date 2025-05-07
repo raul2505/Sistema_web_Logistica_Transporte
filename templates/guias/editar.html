@@ -1,0 +1,113 @@
+{% extends 'bases/base_jefe_despacho.html' %}
+
+{% block title %}Editar Guía de Remisión{% endblock %}
+
+{% block page_title %}Formulario para Editar Guía de Remisión{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2>Editar Guía Completa</h2>
+    
+    {% if messages %}
+        <div class="alert alert-danger">
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- Mostrar errores del formulario -->
+    {% if form.errors or formset.errors %}
+        <div class="alert alert-warning">
+            <strong>Errores:</strong>
+            <ul>
+                {% for field, error_list in form.errors.items %}
+                    <li>{{ field }}: {{ error_list }}</li>
+                {% endfor %}
+                {% for error in formset.non_form_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% endif %}
+
+    <form method="post">
+        {% csrf_token %}
+
+        <div class="row mb-3">
+            <div class="col">
+                <label>Hoja de Ruta</label>
+                {{ form.hoja_de_ruta }}
+            </div>
+            <div class="col">
+                <label>Fecha Emisión</label>
+                {{ form.fecha_emision }}
+            </div>
+            <div class="col">
+                <label>Fecha Traslado</label>
+                {{ form.fecha_traslado }}
+            </div>
+        </div>
+
+        <div class="row mb-3">
+            <div class="col">
+                <label>Empresa (Remitente/Emisor)</label>
+                {{ form.empresa_remitente }}
+            </div>
+            <div class="col">
+                <label>Costo mínimo de Traslado</label>
+                {{ form.costo_minimo_traslado }}
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label>Observaciones</label>
+            {{ form.observaciones }}
+        </div>
+
+        <hr>
+        <h4>Detalle de la Guía</h4>
+        {{ formset.management_form }}
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Descripción</th>
+                    <th>Cantidad</th>
+                    <th>Unidad</th>
+                    <th>Eliminar</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for f in formset %}
+                <tr>
+                    <td>{{ f.id }}  <!-- 👈 Agregando el ID para ediciones -->
+                        {{ f.descripcion }}
+                        {% if f.errors.descripcion %}
+                            <div class="text-danger">{{ f.errors.descripcion }}</div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ f.cantidad }}
+                        {% if f.errors.cantidad %}
+                            <div class="text-danger">{{ f.errors.cantidad }}</div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ f.unidad }}
+                        {% if f.errors.unidad %}
+                            <div class="text-danger">{{ f.errors.unidad }}</div>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {{ f.DELETE }}  <!-- Permitir eliminar registros -->
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        
+        <button type="submit" class="btn btn-primary">Actualizar</button>
+        <a href="{% url 'listar_guias' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Transporte Verito</title>
+    {% load static %}
+    <link
+      rel="stylesheet"
+      href="{% static 'css/style.css' %}?v={{ timestamp }}"
+    />
+  </head>
+  <body>
+    <header>
+      <h1>Transporte Verito</h1>
+      <nav>
+        <a href="#nosotros">Nosotros</a>
+        <a href="#mision-vision">Misión</a>
+        <a href="#vision">Visión</a>
+        <a href="#contacto">Contáctanos</a>
+        <a
+          href="{% url 'login_view'%}"
+          class="btn btn-edit"
+          aria-label="Mostrar detalles "
+          >Login</a
+        >
+      </nav>
+    </header>
+
+    <section class="section" id="hero">
+      <h2>Transporte Verito</h2>
+      <p>Tu socio confiable en transporte y logística</p>
+    </section>
+
+    <section class="section" id="nosotros">
+      <h2>¿Quienes somos?</h2>
+      <p>
+        En Transporte Verito ,cada kilómetro recorrido representa nuestro
+        compromiso con el crecimiento de tu negocio. Nos destacamos por ofrecer
+        servicios de transporte y distribución de mercancías con
+        precisión,seguridad y confianza. Nuestra pasión por la excelencia nos
+        impulsa a superar expectativas y brindar soluciones logísticas adaptadas
+        a cada cliente.
+      </p>
+    </section>
+    <main class="container">
+      <section class="section" id="img-m-v"></section>
+      <section class="section" id="mision-vision">
+        <h2>Misión</h2>
+        <p>
+          Nuestra misión como empresa es satisfacer las necesidades de
+          transporte y logística de nuestros clientes, garantizando puntualidad,
+          seguridad y eficiencia en cada envío.
+        </p>
+
+        <h2>Visión</h2>
+        <p>
+          Ser líderes nacionales en transporte y logística, reconocidos por
+          nuestra innovación, compromiso con la calidad y la capacidad de
+          adaptarnos a las demandas del mercado.
+        </p>
+      </section>
+    </main>
+
+    <form method="POST">
+      {% csrf_token %} {% for field in form %}
+      <div class="form-group">
+        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+        {{ field }}
+      </div>
+      {% endfor %}
+
+      <button type="submit">Enviar Solicitud</button>
+    </form>
+
+    <section class="section" id="contacto">
+      <h2>Contáctanos</h2>
+      <div class="contact-info">
+        <div><strong>Correo:</strong> transportesverito@gmail.com</div>
+        <div><strong>Teléfono:</strong> (01) 396-1862 | 989-123-001</div>
+        <div>
+          <strong>Dirección:</strong> Av. Calle la Niña Mz B lote 12, Lima, Perú
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      <p>Transporte Verito - Derechos Reservados</p>
+    </footer>
+  </body>
+</html>

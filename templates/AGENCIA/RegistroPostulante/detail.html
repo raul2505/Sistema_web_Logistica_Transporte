@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalles del Postulante</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 600px;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin: 0 auto;
+        }
+        ul {
+        list-style-type: none;
+        padding: 0;
+        }
+        li {
+            margin-bottom: 20px;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        label {
+            font-weight: bold;
+            color: #555555;
+            display: block;
+            margin-bottom: 5px;
+        }
+        .image-container {
+        text-align: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            width: 500px;  /* Ajusta el ancho fijo */
+            height: auto;  /* Mantiene la proporción */
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        iframe {
+            width: 100%;
+            border-radius: 8px;
+        }
+        p {
+            margin: 5px 0 15px 0;
+            color: #333333;
+        }
+        .btn {
+            padding: 10px 15px;
+            text-align: center;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .btn-back {
+            background-color: #007BFF;
+            color: white;
+        }
+        .btn-approve {
+            background-color: #28A745;
+            color: white;
+        }
+        .btn-reject {
+            background-color: #DC3545;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Detalles del Postulante</h1>
+        <label>Nombres:</label>
+        <p>{{ applicant.nombres }}</p>
+
+        <label>Apellidos:</label>
+        <p>{{ applicant.apellidos }}</p>
+
+        <label>Número de Celular:</label>
+        <p>{{ applicant.numero_celular }}</p>
+
+        <label>Correo Electrónico:</label>
+        <p>{{ applicant.correo }}</p>
+
+        <label>Tipo de Licencia:</label>
+        <p>{{ applicant.tipo_licencia }}</p>
+
+        <label>Documentos Adjuntos:</label>
+        <ul>
+            <li>
+                <label>DNI (Frontal):</label>
+                <div class="image-container">
+                    <img src="{{ applicant.dni_frontal.url }}" alt="DNI Frontal">
+                </div>
+            </li>
+        
+            <li>
+                <label>DNI (Posterior):</label>
+                <div class="image-container">
+                    <img src="{{ applicant.dni_posterior.url }}" alt="DNI Posterior">
+                </div>
+            </li>
+        
+            {% if applicant.tipo_licencia_formato == "fisica" %}
+                <li>
+                    <label>Licencia (Frontal):</label>
+                    <div class="image-container">
+                        <img src="{{ applicant.licencia_frontal.url }}" alt="Licencia Frontal">
+                    </div>
+                </li>
+                <li>
+                    <label>Licencia (Posterior):</label>
+                    <div class="image-container">
+                        <img src="{{ applicant.licencia_posterior.url }}" alt="Licencia Posterior">
+                    </div>
+                </li>
+            {% elif applicant.tipo_licencia_formato == "electronica" %}
+                <li>
+                    <label>Licencia Electrónica:</label>
+                    <div class="image-container">
+                        {% if licencia_electronica_es_pdf %}
+                            <iframe src="{{ applicant.licencia_electronica.url }}" height="400px"></iframe>
+                        {% else %}
+                            <img src="{{ applicant.licencia_electronica.url }}" alt="Licencia Electrónica">
+                        {% endif %}
+                    </div>
+                </li>
+            {% endif %}
+
+        <label>Tiempo de Experiencia de 2 años:</label>
+        <p>{{ applicant.experiencia }}</p>
+
+        <button class="btn btn-approve">Aprobar</button>
+        <button class="btn btn-reject">Rechazar</button>
+        <button class="btn btn-back">Volver</button>
+    </div>
+</body>
+</html>

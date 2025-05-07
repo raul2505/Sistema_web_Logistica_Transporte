@@ -1,0 +1,93 @@
+{% extends 'bases/base_jefe_despacho.html' %} {% block title %}TRANSPORTE VERITO
+E.I.R.L{% endblock %} {% block page_title %}Crear Hoja de Ruta{% endblock %}
+{%block content %}
+<div class="container-fluid px-4">
+  <div class="row g-3 my-2">
+    <div class="col-md-3">
+      <div
+        class="p-3 bg-white shadow-sm d-flex justify-content-around align-items-center rounded"
+      >
+        <div>
+          <h3 class="fs-2">{{ hojas|length }}</h3>
+          <p class="fs-5">Hojas de Ruta</p>
+        </div>
+        <i
+          class="fas fa-map-marked-alt fs-1 primary-text border rounded-full secondary-bg p-3"
+        ></i>
+      </div>
+    </div>
+  </div>
+
+  <!-- Formulario con fondo blanco -->
+  <div class="bg-white p-4 shadow-sm rounded">
+    <form method="post">
+      {% csrf_token %}
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <td><label for="id_chofer">Chofer</label></td>
+            <td>{{ form.chofer }}</td>
+          </tr>
+          <tr>
+            <td><label for="id_camion">Camion</label></td>
+            <td>{{ form.camion }}</td>
+          </tr>
+          <tr>
+            <td><label for="id_camion">Estado</label></td>
+            <td>{{ form.estado }}</td>
+          </tr>
+          <tr>
+            <td><label for="id_partida_ubi">Inicio de Ruta </label></td>
+            <td>{{ form.direccion_ida }}</td>
+          </tr>
+          <tr>
+            <td><label for="id_llegada_ubi">Destino de Ruta </label></td>
+            <td>{{ form.direccion_vuelta }}</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <button type="submit" class="btn btn-primary">Guardar</button>
+    </form>
+  </div>
+
+  <!-- Tabla de hojas de ruta existentes con fondo blanco -->
+  <h2 class="mt-4">Hojas de Ruta Registradas</h2>
+  <div class="bg-white p-4 shadow-sm rounded">
+    <table class="table table-bordered">
+      <thead class="thead-light">
+        <tr>
+          <th>Dirección Ida</th>
+          <th>Dirección Vuelta</th>
+          <th>Distancia</th>
+          <th>Chofer</th>
+          <th>Camión</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hoja in hojas %}
+        <tr>
+          <td>
+            {{ hoja.partida_ubicacion.direccion }}<br />
+            <small class="text-muted"
+              >({{ hoja.partida_ubicacion.provincia }})</small
+            >
+          </td>
+          <td>
+            {{ hoja.llegada_ubicacion.direccion }}<br />
+            <small class="text-muted"
+              >({{ hoja.llegada_ubicacion.provincia }})</small
+            >
+          </td>
+          <td>{{ hoja.distancia|default:"No calculada" }} km</td>
+          <td>{{ hoja.chofer.nombres }} {{ hoja.chofer.apellidos }}</td>
+          <td>{{ hoja.camion.placa }}</td>
+          <td>{{hoja.estado}}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

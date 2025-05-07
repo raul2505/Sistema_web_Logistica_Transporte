@@ -1,0 +1,179 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_agencia.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Agencia de Contratación{%endblock %}
+{% block content %}
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".aprobar-btn").forEach(button => {
+          button.addEventListener("click", function () {
+              let postulanteId = this.getAttribute("data-id");
+              let button = this;
+              fetch(`/aprobar_postulante/${postulanteId}/`, {
+                  method: "POST",
+                  headers: {
+                      "X-CSRFToken": "{{ csrf_token }}",
+                      "Content-Type": "application/json"
+                  },
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      document.getElementById(`estado-${postulanteId}`).textContent = data.new_estado;
+                      button.disabled = true;
+                  }
+              })
+              .catch(error => console.error("Error:", error));
+          });
+      });
+  });
+</script>
+
+<body>
+    
+
+            <di class="container-fluid px-4">
+                
+
+                <!-- Listado de Postulantes -->
+                <div class="col-12">
+                  <h3 class="fs-4 mb-3">Postulantes Registrados</h3>
+                  <table class="table bg-white rounded shadow-sm table-hover">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Celular</th>
+                        <th>Correo</th>
+                        <th>DNI Frontal</th>
+                        <th>DNI Posterior</th>
+                        <th>Tipo de Licencia</th>
+                        <th>Formato de Licencia</th>
+                        <th>Licencia Frontal</td>
+                        <th>Licencia Posterior</td>
+                        <th>Licencia Electrónica</td>
+                        <th>Experiencia</td>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for applicant in applicants %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ applicant.nombres }}</td>
+                        <td>{{ applicant.apellidos }}</td>
+                        <td>{{ applicant.numero_celular }}</td>
+                        <td>{{ applicant.correo }}</td>
+                        <td>
+                          {% if applicant.dni_frontal %}
+                              <img src="{{ applicant.dni_frontal.url }}" alt="DNI Frontal" width="100">
+                          {% else %}
+                              No disponible
+                          {% endif %}
+                        </td>
+                        <td>
+                            {% if applicant.dni_posterior %}
+                                <img src="{{ applicant.dni_posterior.url }}" alt="DNI Posterior" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>{{ applicant.tipo_licencia }}</td>
+                        <td>{{ applicant.tipo_licencia_formato }}</td>
+                        <td>
+                          {% if applicant.licencia_frontal %}
+                              <img src="{{ applicant.licencia_frontal.url }}" alt="Licencia Frontal" width="100">
+                          {% else %}
+                              No disponible
+                          {% endif %}
+                        </td>
+                        
+                        <td>
+                            {% if applicant.licencia_posterior %}
+                                <img src="{{ applicant.licencia_posterior.url }}" alt="Licencia Posterior" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        
+                        <td>
+                            {% if applicant.licencia_electronica %}
+                                <img src="{{ applicant.licencia_electronica.url }}" alt="Licencia Electrónica" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>{{ applicant.experiencia }}</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row my-5">
+                  <!-- Formulario de Registro -->
+                  <div class="col-12 mb-5">
+                    <section class="form-container p-4 bg-white rounded shadow-sm">
+                      <h3 class="fs-4 mb-3">Registrar Nuevo Postulante (Primera Etapa)</h3>
+                      <form method="POST" action="{% url 'postulante_action_simple' action='crear' %}" enctype="multipart/form-data" >
+                        {% csrf_token %}
+                        <table class="table table-bordered">
+                          <tbody>
+                            <tr>
+                              <td><label for="id_nombre">Nombre/s del postulante</label></td>
+                              <td>{{ form.nombres }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_apellido">Apellidos del postulante</label></td>
+                              <td>{{ form.apellidos }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_numero_celular">Número de Celular</label></td>
+                              <td>{{ form.numero_celular }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_correo">Correo Electrónico</label></td>
+                              <td>{{ form.correo }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_dni_frontal">DNI Frontal</label></td>
+                              <td>{{ form.dni_frontal }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_dni_posterior">DNI Posterior</label></td>
+                              <td>{{ form.dni_posterior }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_tipo_licencia">Tipo de Licencia</label></td>
+                              <td>{{ form.tipo_licencia }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_tipo_licencia_formato">Formato de Licencia</label></td>
+                              <td>{{ form.tipo_licencia_formato }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_licencia_frontal">Licencia Frontal</label></td>
+                              <td>{{ form.licencia_frontal }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_licencia_posterior">Licencia Posterior</label></td>
+                              <td>{{ form.licencia_posterior }}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_licencia_electronica">Licencia Electrónica</label></td>
+                              <td>{{ form.licencia_electronica}}</td>
+                            </tr>
+                            <tr>
+                              <td><label for="id_experiencia">Tiempo de Experiencia de 2 años a más</label></td>
+                              <td>{{ form.experiencia }}</td>
+                            </tr>
+                          </tbody>
+                        </table>
+                        <div class="text-center mt-3">
+                          <button type="submit" class="btn btn-success">Registrar Datos del Postulante Aprobado</button>
+                        </div>
+                      </form>
+                    </section>
+                  </div>
+            </div>
+            {%endblock %} 
+  

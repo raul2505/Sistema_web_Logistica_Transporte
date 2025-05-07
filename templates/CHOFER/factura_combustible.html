@@ -1,0 +1,104 @@
+{% extends 'bases/base_chofer.html' %} 
+{% block title %}Chofer | Factura de combustible{% endblock %}  {% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Datos de la factura de combustible</h3>
+      <form method="POST" action="{% url 'facturaCombustible_action_simple' action='crear' %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_monto">Monto de la factura</label></td>
+              <td>{{ form.monto }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_placa">Placa del vehículo</label></td>
+              <td>{{ form.placa }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_ruc">Número de RUC</label></td>
+              <td>{{ form.ruc }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_fecha">Fecha</label></td>
+              <td>{{ form.fecha }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_fecha">Ruta</label></td>
+              <td>{{ form.ruta }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_chofer">Chofer</label></td>
+              <td>{{ form.chofer }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_factura">Factura adjunta</label></td>
+              <td>{{ form.factura }}</td>
+            </tr>
+            
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Enviar datos</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Facturas enviadas</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>Numero de factura</th>
+            <th>Fecha de recepción</th>
+            <th>Monto total</th>
+            <th>Chofer</th>
+            <th>Ruta</th>
+            <th>Factura adjunta</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for facturaCombustible in facturasCombustibles %}
+        <tr>
+          <td>{{ facturaCombustible.id|add:1000 }}</td>
+          <td>{{ facturaCombustible.fecha }}</td>
+          <td>S/. {{ facturaCombustible.monto|floatformat:2 }}</td>
+          <td>{{ facturaCombustible.chofer }}</td>
+          <td>{{ facturaCombustible.ruta }}</td>
+          <td>
+            {% if facturaCombustible.factura %}
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facturaModal{{ facturaCombustible.id }}">
+                    Ver Factura
+                </button>
+        
+                <!-- Modal de Bootstrap -->
+                <div class="modal fade" id="facturaModal{{ facturaCombustible.id }}" tabindex="-1" aria-labelledby="facturaModalLabel{{ facturaCombustible.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="facturaModalLabel{{ facturaCombustible.id }}">Factura #{{ facturaCombustible.id|add:1000 }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="{{ facturaCombustible.factura.url }}" class="img-fluid rounded shadow" alt="Factura de {{ facturaCombustible.chofer }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <span class="text-muted">No adjunta</span>
+            {% endif %}
+        </td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+                {% endblock %}

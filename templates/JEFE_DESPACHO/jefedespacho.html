@@ -1,0 +1,82 @@
+{% extends 'bases/base_jefe_despacho.html' %} {% block title %} TRANSPORTE
+VERITO E.I.R.L {%endblock %} {% block page_title %} JEFE DESPACHO {%endblock %}
+{% block content %}
+
+<div class="row my-5">
+  <div class="col text-center">
+    <h1 class="display-4 fw-bold mb-4">Bienvenido Jefe de Despacho</h1>
+    <p class="lead mb-4">
+      Supervisa y gestiona la logística y distribución de Transporte Verito
+      EIRL.
+    </p>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-truck-moving fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title">Hojas de Ruta</h5>
+            <p class="card-text">
+              Administra y supervisa las rutas de los camiones en operación.
+            </p>
+            <a href="#" class="btn btn-primary">Ver Hojas de Ruta</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-file-invoice fa-3x mb-3 text-success"></i>
+            <h5 class="card-title">Guías de Remisión</h5>
+            <p class="card-text">
+              Gestiona los documentos de transporte y seguimiento de carga.
+            </p>
+            <a href="#" class="btn btn-success">Ver Guías de Remisión</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-warehouse fa-3x mb-3 text-warning"></i>
+            <h5 class="card-title">Gestión de Camiones</h5>
+            <p class="card-text">
+              Consulta disponibilidad y estado de los camiones de la empresa.
+            </p>
+            <a href="#" class="btn btn-warning">Ver Camiones</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 justify-content-center mt-4">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-bell fa-3x mb-3 text-info"></i>
+            <h5 class="card-title">Notificaciones</h5>
+            <p class="card-text">
+              Revisa alertas sobre cambios en rutas y asignaciones.
+            </p>
+            <a href="#" class="btn btn-info">Ver Notificaciones</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-chart-bar fa-3x mb-3 text-dark"></i>
+            <h5 class="card-title">Reportes de Despacho</h5>
+            <p class="card-text">
+              Genera informes de entregas y operaciones logísticas.
+            </p>
+            <a href="#" class="btn btn-dark">Ver Reportes</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

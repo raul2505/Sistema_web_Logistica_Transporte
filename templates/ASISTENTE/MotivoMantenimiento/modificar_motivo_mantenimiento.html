@@ -1,0 +1,37 @@
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+<div class="col-12">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h3>Modificar Motivo de Mantenimiento</h3>
+    <body>
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_camion">Camión</label></td>
+              <td>{{ form.camion }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_motivo">Motivo del mantenimiento</label></td>
+              <td>{{ form.motivo }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button
+            type="reset"
+            href="{% url 'motivo_mantenimiento'  %}"
+            class="btn btn-danger"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-success">Editar</button>
+        </div>
+      </form>
+    </body>
+  </section>
+</div>
+
+{%endblock %}

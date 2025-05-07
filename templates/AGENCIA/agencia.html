@@ -1,0 +1,80 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_agencia.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Agencia de Contratación{%endblock %}
+{% block content %}
+<div class="row my-5">
+  <div class="col text-center">
+    <h1 class="display-4 fw-bold mb-4">
+      Bienvenido a la Agencia de Contratación
+    </h1>
+    <p class="lead mb-4">
+      Gestiona la incorporación de nuevos choferes, consulta sus perfiles y
+      mantente al tanto de las novedades.
+    </p>
+
+    <div class="row g-4 justify-content-center">
+      <!-- Registrar Nuevo Chofer -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-user-plus fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title">Registrar Nuevo Chofer</h5>
+            <p class="card-text">
+              Agrega un nuevo chofer al sistema para que sea evaluado y, de ser
+              necesario, contratado.
+            </p>
+            <a href="#" class="btn btn-primary">Registrar</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Lista de Choferes -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-users fa-3x mb-3 text-success"></i>
+            <h5 class="card-title">Lista de Choferes</h5>
+            <p class="card-text">
+              Consulta el listado de choferes registrados y revisa sus perfiles.
+            </p>
+            <a href="#" class="btn btn-success">Ver Lista</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Notificaciones -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-bell fa-3x mb-3 text-warning"></i>
+            <h5 class="card-title">Notificaciones</h5>
+            <p class="card-text">
+              Mantente informado sobre actualizaciones y novedades en el proceso
+              de contratación.
+            </p>
+            <a href="#" class="btn btn-warning">Ver Notificaciones</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row g-4 justify-content-center mt-4">
+      <!-- Reportes de Evaluación -->
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-file-alt fa-3x mb-3 text-info"></i>
+            <h5 class="card-title">Reportes de Evaluación</h5>
+            <p class="card-text">
+              Consulta reportes y evaluaciones de los choferes potenciales.
+            </p>
+            <a href="#" class="btn btn-info">Ver Reportes</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gestión de Incidencias -->
+    </div>
+  </div>
+</div>
+{%endblock %}

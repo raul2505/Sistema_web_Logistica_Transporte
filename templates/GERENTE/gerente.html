@@ -1,0 +1,51 @@
+{% extends 'bases/base_gerente.html' %} {% block title %} Dashboard de Gerente
+General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
+{%block content %}
+<div class="row my-5">
+  <div class="col text-center">
+    <h1 class="display-4 fw-bold mb-4">Bienvenida Gerente General</h1>
+    <p class="lead mb-4">
+      Supervisa y gestiona todos los procesos estratégicos de Transporte Verito
+      EIRL.
+    </p>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-chart-line fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title">Análisis de Rendimiento</h5>
+            <p class="card-text">
+              Evalúa el desempeño operativo, financiero y de mantenimiento de la
+              empresa.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-briefcase fa-3x mb-3 text-success"></i>
+            <h5 class="card-title">Gestión Empresarial</h5>
+            <p class="card-text">
+              Dirige las operaciones generales, alianzas estratégicas y
+              objetivos empresariales.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-balance-scale fa-3x mb-3 text-warning"></i>
+            <h5 class="card-title">Control Financiero</h5>
+            <p class="card-text">
+              Supervisa la rentabilidad, inversiones y toma de decisiones
+              financieras clave.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

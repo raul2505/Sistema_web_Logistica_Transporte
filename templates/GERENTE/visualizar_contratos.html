@@ -1,0 +1,48 @@
+{% extends "bases/base_gerente.html" %} {% block content %}
+<!-- visualizar_contratos.html -->
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h2>Lista de Contratos</h2>
+    <table class="table">
+      <thead>
+        <tr>
+          <th>Solicitud</th>
+          <th>Empresa</th>
+          <th>Documento</th>
+          <th>Estado</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for contrato in contratos %}
+        <tr>
+          <td>{{ contrato.solicitud }}</td>
+          <td>{{ contrato.empresa }}</td>
+          <td>
+            <a href="{{ contrato.documento.url }}" target="_blank"
+              >Ver Documento</a
+            >
+          </td>
+          <td>
+            <!-- prettier-ignore -->
+            {% if contrato.estado == 'pendiente' %}
+            <span class="badge bg-warning text-dark">Pendiente</span>
+            {% elif contrato.estado == 'aprobada' %}
+            <span class="badge bg-success">Aprobada</span>
+            {% elif contrato.estado == 'rechazada' %}
+            <p>
+              <strong>Motivo:</strong> {{ contrato.rechazocontrato.motivo }}
+            </p>
+            <span class="badge bg-danger">Rechazada</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="text-center">No hay contratos registrados.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Registrar Nuevo Camión</h3>
+      <form
+        method="POST"
+        action="{% url 'camion_action_simple' action='crear' %}"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_foto">Foto del camión</label></td>
+              <td>{{ form.foto_camion }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_placa">Placa del camión</label></td>
+              <td>{{ form.placa }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_marca">Marca</label></td>
+              <td>{{ form.marca }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_modelo">Modelo</label></td>
+              <td>{{ form.modelo }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_year_fabricacion">Año de fabricación</label>
+              </td>
+              <td>{{ form.year_fabricacion }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_capacidad_carga"
+                  >Capacidad de carga (toneladas)</label
+                >
+              </td>
+              <td>{{ form.capacidad_carga }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipo_camion">Tipo de camión</label></td>
+              <td>{{ form.tipo_camion }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_estado_operativo">Estado operativo</label></td>
+              <td>{{ form.estado_operativo }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_fecha_adquisicion">Fecha de adquisición</label>
+              </td>
+              <td>{{ form.fecha_adquisicion }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_propietario_vehiculo"
+                  >Propietario del Vehiculo</label
+                >
+              </td>
+              <td>{{ form.propietario_vehiculo}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_rendimiento_combustible"
+                  >Rendimiento de combustible (km/l)</label
+                >
+              </td>
+              <td>{{ form.rendimiento_combustible }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_empresa_propietaria">Empresa Asignada</label>
+              </td>
+              <td>{{ form.empresa_propietaria }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_notas">Notas adicionales</label></td>
+              <td>{{ form.notas }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">Crear Camión</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+  <div class="container-fluid">
+    <div class="row my-5">
+      <div class="col-12">
+        <section class="form-container p-4 bg-white rounded shadow-sm">
+          <h3 class="fs-4 mb-3">Camiones Registrados</h3>
+          <!-- Contenedor responsive para la tabla -->
+          <div class="table-responsive">
+            <table class="table table-bordered table-hover">
+              <thead class="thead-light">
+                <tr>
+                  <th>Placa</th>
+                  <th>Marca</th>
+                  <th>Modelo</th>
+                  <th>Año</th>
+                  <th>Capacidad de Carga</th>
+                  <th>Tipo</th>
+                  <th>Estado Operativo</th>
+                  <th>Fecha de Adquisición</th>
+                  <th>Propietario del Vehículo</th>
+                  <th>Rendimiento</th>
+                  <th>Empresa Propietaria</th>
+                  <th>Notas</th>
+                  <th>Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for camion in camiones %}
+                <tr>
+                  <td>{{ camion.placa }}</td>
+                  <td>{{ camion.marca }}</td>
+                  <td>{{ camion.modelo }}</td>
+                  <td>{{ camion.year_fabricacion }}</td>
+                  <td>{{ camion.capacidad_carga }}</td>
+                  <td>{{ camion.tipo_camion }}</td>
+                  <td>{{ camion.estado_operativo }}</td>
+                  <td>{{ camion.fecha_adquisicion }}</td>
+                  <td>{{ camion.propietario_vehiculo }}</td>
+                  <td>{{ camion.rendimiento_combustible }}</td>
+                  <td>{{ camion.empresa_propietaria }}</td>
+                  <td>{{ camion.notas }}</td>
+                  <td>
+                    <a
+                      href="{% url 'modificar' camion.id %}"
+                      class="btn btn-primary btn-sm"
+                      >Editar</a
+                    >
+                    <form
+                      method="POST"
+                      action="{% url 'camion_action' 'eliminar' camion.id %}"
+                      style="display: inline-block"
+                    >
+                      {% csrf_token %}
+                      <button type="submit" class="btn btn-danger btn-sm">
+                        Eliminar
+                      </button>
+                    </form>
+                    <a
+                      href="{% url 'detalles_camion' camion.id %}"
+                      class="btn btn-info btn-sm"
+                      aria-label="Mostrar detalles"
+                      >Detalles</a
+                    >
+                  </td>
+                </tr>
+                {% empty %}
+                <tr>
+                  <td colspan="13" class="text-center">
+                    No hay camiones registrados.
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </div>
+    </div>
+  </div>
+</div>
+{%endblock %}

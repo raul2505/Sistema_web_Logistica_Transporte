@@ -1,0 +1,109 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+<div class="container-fluid px-4">
+  <div class="row my-5">
+    <!-- Formulario de Registro -->
+    <div class="col-12 mb-5">
+      <section class="form-container p-4 bg-white rounded shadow-sm">
+        <h3 class="fs-4 mb-3">Registrar Detalle de Mantenimiento</h3>
+        <form
+          method="POST"
+          action="{% url 'crear_mantenimiento_detalle' mantenimiento.id %}"
+        >
+          {% csrf_token %}
+          <table class="table table-bordered">
+            <tbody>
+              <tr>
+                <td>
+                  <label for="id_mantenimiento">Id del Mantenimiento</label>
+                </td>
+                <td>{{ mantenimiento.id }}</td>
+              </tr>
+              <tr>
+                <td><label for="id_placa">Placa del camion</label></td>
+                <td>{{ mantenimiento.camion }}</td>
+              </tr>
+              <tr>
+                <td>
+                  <label for="id_descripcion_servicio_repuesto"
+                    >Descripción del servicio/repuesto</label
+                  >
+                </td>
+                <td>{{ form.descripcion_servicio_repuesto}}</td>
+              </tr>
+              <tr>
+                <td><label for="id_cantidad">Cantidad</label></td>
+                <td>{{ form.cantidad}}</td>
+              </tr>
+              <tr>
+                <td><label for="id_costo_unitario">Costo Unitario</label></td>
+                <td>{{ form.costo_unitario }}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="text-center mt-3">
+            <button type="submit" class="btn btn-success">
+              Añadir Detalle
+            </button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <!-- Listado de Camiones -->
+    <div class="col-12">
+      <h3 class="fs-4 mb-3">Detalles Registrados</h3>
+      <table class="table bg-white rounded shadow-sm table-hover">
+        <thead>
+          <tr>
+            <th>Descripción del Servicio/Repuesto</th>
+            <th>Cantidad</th>
+            <th>Costo Unitario</th>
+            <th>Costo Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for detalle in mantenimiento_detalles %}
+          <tr>
+            <td>{{ detalle.descripcion_servicio_repuesto }}</td>
+            <td>{{ detalle.cantidad }}</td>
+            <td>{{ detalle.costo_unitario }}</td>
+            <td>{{ detalle.costo_total }}</td>
+            <td>
+              <form
+                method="POST"
+                action="{% url 'crear_mantenimiento_detalle' mantenimiento.id %}"
+                style="display: inline-block"
+              >
+                {% csrf_token %}
+                <input
+                  type="hidden"
+                  name="detalle_id"
+                  value="{{ detalle.id }}"
+                />
+                <input type="hidden" name="eliminar_detalle" value="true" />
+                <button
+                  type="submit"
+                  class="btn btn-danger btn-sm"
+                  onclick="return confirm('¿Seguro que deseas eliminar este detalle?');"
+                >
+                  Eliminar
+                </button>
+              </form>
+            </td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4" class="text-center">
+              No hay detalles registrados.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{%endblock %}

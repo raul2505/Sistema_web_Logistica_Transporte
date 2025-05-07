@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Postulantes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .intro-container {
+            width: 100%;
+            max-width: 800px;
+            background-color: #ffffff;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .intro-container h1, .intro-container p {
+            text-align: center;
+            color: #333333;
+        }
+        .form-container {
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 400px;
+            margin-bottom: 20px;
+        }
+        .form-container h2 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #333333;
+        }
+        .form-container label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555555;
+        }
+        .form-container input, .form-container select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #cccccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .form-container button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .form-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+    <script>
+        function toggleLicenciaFields() {
+            const tipoLicencia = document.getElementById('tipo_licencia_formato').value;
+            const licenciaFisicaFields = document.getElementById('licencia_fisica_fields');
+            const licenciaElectronicaField = document.getElementById('licencia_electronica_field');
+
+            if (tipoLicencia === 'fisica') {
+                licenciaFisicaFields.style.display = 'block';
+                licenciaElectronicaField.style.display = 'none';
+            } else if (tipoLicencia === 'electronica') {
+                licenciaFisicaFields.style.display = 'none';
+                licenciaElectronicaField.style.display = 'block';
+            } else {
+                licenciaFisicaFields.style.display = 'none';
+                licenciaElectronicaField.style.display = 'none';
+            }
+        }
+    </script>
+</head>
+<body>
+    
+    <div class="intro-container">
+        <h1>Únete a nuestro equipo</h1>
+        <p>
+            La <strong>Empresa de Transporte Verito</strong> está en búsqueda de choferes experimentados y responsables que 
+            deseen formar parte de nuestro equipo. Si tienes experiencia en el transporte de mercadería, 
+            te motiva trabajar en equipo, y estás disponible para laborar de lunes a sábados en jornadas planificadas, 
+            ¡esta es tu oportunidad!
+        </p>
+    </div>
+
+    <div class="form-container">
+        <h2>Formulario de Registro de Datos Personales</h2>
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            <label for="nombres">Nombres:</label>
+            <input type="text" id="nombres" name="nombres" placeholder="Ingresa tus nombres" required>
+
+            <label for="apellidos">Apellidos:</label>
+            <input type="text" id="apellidos" name="apellidos" placeholder="Ingresa tus apellidos" required>
+
+            <label for="numero_celular">Número de Celular:</label>
+            <input type="text" id="numero_celular" name="numero_celular" placeholder="Ejemplo: 987654321" pattern="[0-9]{9}" maxlength="9" required title="Debe contener 9 dígitos">
+
+            <label for="correo">Correo Electrónico:</label>
+            <input type="email" id="correo" name="correo" placeholder="Ingresa tu correo electrónico" required>
+
+            <label for="dni_frontal">Adjunta Imagen del DNI (Frontal):</label>
+            <input type="file" id="dni_frontal" name="dni_frontal" accept="image/*" required>
+
+            <label for="dni_posterior">Adjunta Imagen del DNI (Posterior):</label>
+            <input type="file" id="dni_posterior" name="dni_posterior" accept="image/*" required>
+
+            <label for="tipo_licencia">Tipo de Licencia de Conducir:</label>
+            <select id="tipo_licencia" name="tipo_licencia" required>
+                <option value="" disabled selected>Selecciona tu tipo de licencia</option>
+                <option value="A4">A4</option>
+            </select>
+
+            <label for="tipo_licencia_formato">¿Tu licencia es física o electrónica?</label>
+            <select id="tipo_licencia_formato" name="tipo_licencia_formato" onchange="toggleLicenciaFields()" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="fisica">Física</option>
+                <option value="electronica">Electrónica</option>
+            </select>
+
+            <div id="licencia_fisica_fields" style="display: none;">
+                <label for="licencia_frontal">Adjunta Imagen de la Licencia (Frontal):</label>
+                <input type="file" id="licencia_frontal" name="licencia_frontal" accept="image/*">
+
+                <label for="licencia_posterior">Adjunta Imagen de la Licencia (Posterior):</label>
+                <input type="file" id="licencia_posterior" name="licencia_posterior" accept="image/*">
+            </div>
+
+            <div id="licencia_electronica_field" style="display: none;">
+                <label for="licencia_electronica">Adjunta Imagen de la Licencia Electrónica:</label>
+                <input type="file" id="licencia_electronica" name="licencia_electronica" accept="image/*">
+            </div>
+
+            <label for="experiencia">¿Cuenta con experiencia de 2 años como chofer?</label>
+            <select id="experiencia" name="experiencia" required>
+                <option value="" disabled selected>Selecciona una opción</option>
+                <option value="si">Sí</option>
+                <option value="no">No</option>
+            </select>
+
+            <button type="submit">Enviar Formulario</button>
+        </form>
+    </div>
+</body>
+</html>

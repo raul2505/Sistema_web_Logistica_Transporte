@@ -1,0 +1,107 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_agencia.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Agencia de Contratación{%endblock %}
+{% block content %}
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>Gestión de Postulantes</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background-color: #f5f5f5;
+          margin: 0;
+          padding: 20px;
+        }
+        h1 {
+          text-align: center;
+          margin-bottom: 20px;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-bottom: 20px;
+        }
+        table th,
+        table td {
+          padding: 10px;
+          text-align: left;
+          border: 1px solid #ddd;
+        }
+        table th {
+          background-color: #4caf50;
+          color: white;
+        }
+        .btn {
+          padding: 8px 12px;
+          text-align: center;
+          border: none;
+          border-radius: 4px;
+          cursor: pointer;
+        }
+        .btn-view {
+          background-color: #007bff;
+          color: white;
+        }
+        .btn-approve {
+          background-color: #28a745;
+          color: white;
+        }
+        .btn-reject {
+          background-color: #dc3545;
+          color: white;
+        }
+      </style>
+    </head>
+    <body>
+      <h1>Gestión de Postulantes</h1>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nombres</th>
+            <th>Apellidos</th>
+            <th>Número Celular</th>
+            <th>Correo</th>
+            <th>Tipo de Licencia</th>
+            <th>Formato de Licencia</th>
+            <th>Experiencia</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for applicant in applicants %}
+          <tr>
+            <td>{{ forloop.counter }}</td>
+            <td>{{ applicant.nombres }}</td>
+            <td>{{ applicant.apellidos }}</td>
+            <td>{{ applicant.numero_celular }}</td>
+            <td>{{ applicant.correo }}</td>
+            <td>{{ applicant.tipo_licencia }}</td>
+            <td>{{ applicant.tipo_licencia_formato }}</td>
+            <td>{{ applicant.experiencia }}</td>
+            <td>
+              <a
+                href="{% url 'applicant_detail' applicant.id %}"
+                class="btn btn-view"
+                >Ver</a
+              >
+              <button class="btn btn-approve">Aprobar</button>
+              <button class="btn btn-reject">Rechazar</button>
+            </td>
+          </tr>
+          {% empty %}
+
+          <td colspan="10" style="text-align: center">
+            No hay postulantes registrados.
+          </td>
+
+          {% endfor %}
+        </tbody>
+      </table>
+    </body>
+  </section>
+</div>
+{%endblock %}

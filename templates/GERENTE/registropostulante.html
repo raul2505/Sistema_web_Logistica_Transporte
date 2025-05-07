@@ -1,0 +1,236 @@
+{% extends 'bases/base_gerente.html' %} {% block title %} Dashboard de Gerente
+General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
+{%block content %}
+<html lang="en">
+
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+      document.querySelectorAll(".aprobar-btn").forEach(button => {
+          button.addEventListener("click", function () {
+              let postulanteId = this.getAttribute("data-id");
+              let button = this;
+              fetch(`/aprobar_postulante/${postulanteId}/`, {
+                  method: "POST",
+                  headers: {
+                      "X-CSRFToken": "{{ csrf_token }}",
+                      "Content-Type": "application/json"
+                  },
+              })
+              .then(response => response.json())
+              .then(data => {
+                  if (data.success) {
+                      document.getElementById(`estado-${postulanteId}`).textContent = data.new_estado;
+                      button.disabled = true;
+                  }
+              })
+              .catch(error => console.error("Error:", error));
+          });
+      });
+  });
+</script>
+
+<body>
+    
+         
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            
+
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        let csrftoken = document.querySelector("input[name='csrfmiddlewaretoken']").value;
+                
+                        document.querySelectorAll(".aprobar-btn").forEach(button => {
+                            button.addEventListener("click", function () {
+                                let postulanteId = this.getAttribute("data-id");
+                                let button = this;
+                
+                                fetch(`/aprobar_postulante/${postulanteId}/`, {
+                                    method: "POST",
+                                    headers: {
+                                        "X-CSRFToken": csrftoken,
+                                        "Content-Type": "application/json"
+                                    },
+                                })
+                                .then(response => response.json())
+                                .then(data => {
+                                    if (data.success) {
+                                        document.getElementById(`estado-${postulanteId}`).textContent = data.new_estado;
+                                        button.disabled = true;
+                                    }
+                                })
+                                .catch(error => console.error("Error:", error));
+                            });
+                        });
+                    });
+                </script>                
+
+                <!-- Listado de Postulantes -->
+                <div class="col-12">
+                  <h3 class="fs-4 mb-3">Postulantes Registrados</h3>
+                  <table class="table bg-white rounded shadow-sm table-hover">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Tipo de Licencia</th>
+                        <th>Formato de Licencia</th>
+                        <th>Licencia Frontal</td>
+                        <th>Licencia Posterior</td>
+                        <th>Licencia Electrónica</td>
+                        <th>Clínica</th>
+                        <th>Exámen/es Requerido/s</th>
+                        <th>Medicina General</th>
+                        <th>Toxicológico</th>
+                        <th>Oftalmología</th>
+                        <th>Otorrinolaringología</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for postulante in postulantes %}
+                      {% if postulante.estado == "cuarta_aprobada" or postulante.estado == "cuarta_pendiente" %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ postulante.nombres }}</td>
+                        <td>{{ postulante.apellidos }}</td>
+                        <td>{{ postulante.tipo_licencia }}</td>
+                        <td>{{ postulante.tipo_licencia_formato }}</td>
+                        <td>
+                          {% if postulante.licencia_frontal %}
+                              <img src="{{ postulante.licencia_frontal.url }}" alt="Licencia Frontal" width="100">
+                          {% else %}
+                              No disponible
+                          {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_posterior %}
+                                <img src="{{ postulante.licencia_posterior.url }}" alt="Licencia Posterior" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_electronica %}
+                                <img src="{{ postulante.licencia_electronica.url }}" alt="Licencia Electrónica" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>{{ postulante.clinica }}</td>
+                        <td>
+                            {% if postulante.examenes_requeridos.all %}
+                                <ul class="list-unstyled mb-0">
+                                    {% for examen in postulante.examenes_requeridos.all %}
+                                        <li class="mb-2">
+                                            <span class="badge bg-primary">{{ examen.get_tipo_display }}</span>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            {% else %}
+                                <p class="text-muted mb-0">No hay exámenes asignados</p>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.resultado_medicina_general %}
+                                <a href="{{ postulante.resultado_medicina_general.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-file-download"></i> Ver Resultado
+                                </a>
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.resultado_toxicologico %}
+                                <a href="{{ postulante.resultado_toxicologico.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-file-download"></i> Ver Resultado
+                                </a>
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.resultado_oftalmologia %}
+                                <a href="{{ postulante.resultado_oftalmologia.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-file-download"></i> Ver Resultado
+                                </a>
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.resultado_otorrinolaringologia %}
+                                <a href="{{ postulante.resultado_otorrinolaringologia.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-file-download"></i> Ver Resultado
+                                </a>
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td id="estado-{{ postulante.id }}">{{ postulante.estado }}</td>
+                        <td>
+                            <form method="POST" action="{% url 'aprobar_examen_postulante' postulante.id %}">
+                              {% csrf_token %}
+                              <button type="submit" 
+                              class="btn btn-success btn-sm"
+                              data-id="{{ postulante.id }}" 
+                              {% if postulante.estado == "cuarta_aprobada" %} disabled {% endif %}>
+                              Aprobar
+                              </button>
+                            </form>
+                            <form 
+                                method="POST" 
+                                action="{% url 'postulante_action' 'eliminar' postulante.id %}" 
+                                style="display: inline-block;"
+                            >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                            </form>
+                            <form 
+                                method="POST" 
+                                action="{% url 'postulante_action' 'rechazar_cuarta' postulante.id %}" 
+                                style="display: inline-block;"
+                            >
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-warning btn-sm" {% if postulante.estado == "cuarta_rechazada" %} disabled {% endif %}>Desaprobar</button>
+                            </form>
+                            <a 
+                                href="{% url 'detalles_registro_postulante' postulante.id %}" 
+                                class="btn btn-info btn-sm" 
+                                aria-label="Mostrar detalles"
+                            >
+                                Detalles
+                            </a>
+                        </td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <div class="text-center mt-3">
+                    <a href="{% url 'generar_cuarto_reporte_pdf' %}" class="btn btn-danger">Generar Reporte en PDF</a>
+                </div>
+                </div>
+              </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        var el = document.getElementById("wrapper");
+        var toggleButton = document.getElementById("menu-toggle");
+
+        toggleButton.onclick = function () {
+            el.classList.toggle("toggled");
+        };
+    </script>
+</body>
+
+</html>
+{% endblock %} 

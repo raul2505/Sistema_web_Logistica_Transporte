@@ -1,0 +1,113 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+<div class="container-fluid px-4">
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Registrar Factura</h3>
+      <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_numero_factura">Numero Factura</label></td>
+              <td>{{ form.numero_factura }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_fecha_emision">Fecha de Emision</label></td>
+              <td>{{ form.fecha_emision }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_mantenimiento">Mantenimiento</label></td>
+              <td>{{ form.mantenimiento }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_taller">Taller</label></td>
+              <td>{{ form.taller }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_monto_total">Monto Total</label></td>
+              <td>{{ form.monto_total }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_metodo_pago">Metodo de Pago</label></td>
+              <td>{{ form.metodo_pago }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_estado_pago">Estado de Pago</label></td>
+              <td>{{ form.estado_pago }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          {% if form.errors %}
+          <div class="alert alert-danger">
+            <strong>Hay errores en el formulario:</strong>
+            <ul>
+              {% for field in form %} {% for error in field.errors %}
+              <li>{{ error }}</li>
+              {% endfor %} {% endfor %}
+            </ul>
+          </div>
+          {% endif %}
+          <button type="submit" class="btn btn-success">Guardar Factura</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="row my-5">
+    <h3 class="fs-4 mb-3">Registro de Mantenimientos</h3>
+    <div class="col">
+      <table class="table bg-white rounded shadow-sm table-hover">
+        <thead>
+          <tr>
+            <h2>Factura del Mantenimiento: {{ mantenimiento.id }}</h2>
+            <th>ID del mantenimiento y Placa Camion</th>
+            <th>Número de Factura</th>
+            <th>Fecha</th>
+            <th>Total</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        {% for factura in facturas %}
+        <tr>
+          <td>{{ factura.mantenimiento }}</td>
+          <td>{{ factura.numero_factura }}</td>
+          <td>{{ factura.fecha_emision }}</td>
+          <td>S/{{ factura.monto_total }}</td>
+          <td>
+            <a
+              href="{% url 'factura_editar' mantenimiento.id factura.id %}"
+              class="btn btn-primary btn-sm"
+              >Editar</a
+            >
+            <a
+              href="{% url 'factura_detalles' mantenimiento.id factura.id %}"
+              class="btn btn-info btn-sm"
+              >Ver</a
+            >
+            <form
+              method="POST"
+              action="{% url 'factura_eliminar' mantenimiento.id factura.id %}"
+              style="display: inline"
+            >
+              {% csrf_token %}
+              <button
+                type="submit"
+                class="btn btn-danger btn-sm"
+                onclick="return confirm('¿Seguro que deseas eliminar esta factura?');"
+              >
+                Eliminar
+              </button>
+            </form>
+          </td>
+        </tr>
+        {% endfor %}
+      </table>
+    </div>
+  </div>
+</div>
+
+{%endblock %}

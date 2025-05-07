@@ -1,0 +1,145 @@
+{% extends 'bases/base_jefe_despacho.html' %} {% block title %}Crear Guía de
+Remisión{% endblock %} {% block page_title %}Formulario para Crear Guía de
+Remisión{% endblock %} {% block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Crear Guía de Remisión</h2>
+
+  {% if messages %} {% for message in messages %}
+  <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+    {{ message }}
+  </div>
+  {% endfor %} {% endif %}
+
+  <form
+    method="POST"
+    enctype="multipart/form-data"
+    class="needs-validation"
+    novalidate
+  >
+    {% csrf_token %}
+    <!-- prettier-ignore -->
+    <!-- Información de la Hoja de Ruta -->
+    <div class="card mb-4">
+      <div class="card-header">Información de la Hoja de Ruta</div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4">
+            <strong>Chofer:</strong> {{ hoja_de_ruta.chofer.nombres }}
+            {{hoja_de_ruta.chofer.apellidos }}
+          </div>
+          <div class="col-md-4">
+            <strong>Camión:</strong> {{ hoja_de_ruta.camion.placa }}
+          </div>
+          <div class="col-md-4">
+            <strong>Estado:</strong> {{ hoja_de_ruta.estado }}
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-6">
+            <strong>Ubicación de Partida:</strong>
+            {{hoja_de_ruta.partida_ubicacion.direccion }}
+          </div>
+          <div class="col-md-6">
+            <strong>Ubicación de Llegada:</strong>
+            {{hoja_de_ruta.llegada_ubicacion.direccion }}
+          </div>
+        </div>
+        <div class="row mt-2">
+          <div class="col-md-4">
+            <strong>Distancia:</strong> {{ hoja_de_ruta.distancia }} km
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Información de la Guía de Remisión -->
+    <div class="card mb-4">
+      <div class="card-header">Información de la Guía de Remisión</div>
+      <div class="card-body">{{ form.as_p }}</div>
+    </div>
+
+    <!-- Formset de Detalles de Guía de Remisión en formato de tabla -->
+    <div class="card mb-4">
+      <div class="card-header">Detalles de Guía de Remisión</div>
+      <div class="card-body">
+        {{ detalle_formset.management_form }}
+        <table class="table table-bordered" id="detalle-table">
+          <thead>
+            <tr>
+              <th>Descripción</th>
+              <th>Cantidad</th>
+              <th>Unidad</th>
+            </tr>
+          </thead>
+          <tbody id="formset-container">
+            {% for form in detalle_formset %}
+            <tr class="form-row">
+              <td>{{ form.descripcion }}</td>
+              <td>{{ form.cantidad }}</td>
+              <td>{{ form.unidad }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <!-- Botón para agregar un nuevo detalle -->
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="d-flex justify-content-end gap-2">
+      <button type="submit" class="btn btn-success">Guardar</button>
+      <button type="reset" class="btn btn-danger">Cancelar</button>
+    </div>
+  </form>
+</div>
+
+<!-- Plantilla oculta para clonar (utiliza empty_form del formset) -->
+<div id="empty-form" style="display: none">
+  <tr class="form-row">
+    <td>{{ detalle_formset.empty_form.descripcion }}</td>
+    <td>{{ detalle_formset.empty_form.cantidad }}</td>
+    <td>{{ detalle_formset.empty_form.unidad }}</td>
+    <td>
+      <button type="button" class="btn btn-danger btn-sm remove-row">
+        Eliminar
+      </button>
+    </td>
+  </tr>
+</div>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    var addFormButton = document.getElementById("add-form");
+    addFormButton.addEventListener("click", function (e) {
+      e.preventDefault();
+
+      var container = document.getElementById("formset-container");
+      var emptyFormHtml = document.getElementById("empty-form").innerHTML;
+
+      // Obtener el valor actual de TOTAL_FORMS
+      var totalFormsInput = document.getElementById("id_form-TOTAL_FORMS");
+      var totalForms = parseInt(totalFormsInput.value);
+
+      // Reemplazar __prefix__ en la plantilla con el índice actual
+      var newFormHtml = emptyFormHtml.replace(/__prefix__/g, totalForms);
+
+      // Insertar la nueva fila en la tabla
+      container.insertAdjacentHTML("beforeend", newFormHtml);
+
+      // Actualizar el contador de formularios para el formset
+      totalFormsInput.value = totalForms + 1;
+    });
+
+    // Opcional: Eliminar filas dinámicamente
+    document
+      .getElementById("detalle-table")
+      .addEventListener("click", function (e) {
+        if (e.target && e.target.classList.contains("remove-row")) {
+          var row = e.target.closest("tr");
+          row.remove();
+          // Nota: Si usas can_delete en el formset, podrías necesitar marcar el formulario para eliminación en lugar de eliminar la fila directamente.
+        }
+      });
+  });
+</script>
+{% endblock %}

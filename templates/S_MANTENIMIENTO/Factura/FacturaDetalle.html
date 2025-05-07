@@ -1,0 +1,13 @@
+<div class="container">
+  <h2>Detalles de la Factura #{{ factura.id }}</h2>
+
+  <p><strong>Número de Factura:</strong> {{ factura.numero_factura }}</p>
+  <p><strong>Fecha:</strong> {{ factura.fecha }}</p>
+  <p><strong>Total:</strong> S/ {{ factura.total }}</p>
+  <p><strong>Descripción:</strong> {{ factura.descripcion }}</p>
+
+  <!-- Botón para volver -->
+  <a href="{% url 'factura_list' mantenimiento.id %}" class="btn btn-secondary"
+    >Volver</a
+  >
+</div>

@@ -1,0 +1,16 @@
+{% extends 'bases/base_jefe_despacho.html' %}
+
+{% block title %}Confirmar Eliminación{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Confirmar Eliminación</h1>
+    <p>¿Estás seguro de que deseas eliminar la hoja de ruta de {{ hoja.chofer.nombres }} {{ hoja.chofer.apellidos }}?</p>
+    
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a href="{% url 'hoja_de_ruta_create' %}" class="btn btn-secondary">Cancelar</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends 'bases/base_gerente.html' %} {% block title %} Dashboard de Gerente
+General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
+{%block content %}
+
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Detalles del Postulante</h3>
+
+      <form
+        action="detalles_registro"
+        method="post"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_nombre">Nombre/s del postulante</label></td>
+              <td>{{ postulante.nombres }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_apellido">Apellidos del postulante</label></td>
+              <td>{{ postulante.apellidos }}</td>
+            </tr>
+            <tr>
+              <td><label>Tipo de Licencia:</label></td>
+              <td>{{ postulante.tipo_licencia }}</td>
+            </tr>
+            <tr>
+              <td><label>Formato de Licencia:</label></td>
+              <td>{{ postulante.tipo_licencia_formato }}</td>
+            </tr>
+            <tr>
+              <td><label>Licencia Frontal:</label></td>
+              <td>
+                {% if postulante.licencia_frontal %}
+                <img
+                  src="{{ postulante.licencia_frontal.url }}"
+                  alt="Licencia Frontal"
+                  width="200"
+                />
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Licencia Posterior:</label></td>
+              <td>
+                {% if postulante.licencia_posterior %}
+                <img
+                  src="{{ postulante.licencia_posterior.url }}"
+                  alt="Licencia Posterior"
+                  width="200"
+                />
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Licencia Electrónica:</label></td>
+              <td>
+                {% if postulante.licencia_electronica %}
+                <img
+                  src="{{ postulante.licencia_electronica.url }}"
+                  alt="Licencia Electrónica"
+                  width="800"
+                />
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Clínica:</label></td>
+              <td>{{ postulante.clinica }}</td>
+            </tr>
+            <tr>
+              <td><label>Exámenes Requeridos:</label></td>
+              <td>
+                {% if postulante.examenes_requeridos.all %}
+                <ul class="list-unstyled mb-0">
+                  {% for examen in postulante.examenes_requeridos.all %}
+                  <li class="mb-2">
+                    <span class="badge bg-primary"
+                      >{{ examen.get_tipo_display }}</span
+                    >
+                  </li>
+                  {% endfor %}
+                </ul>
+                {% else %}
+                <p class="text-muted mb-0">No hay exámenes asignados</p>
+                {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Examen de Medicina General:</label></td>
+              <td>
+                {% if postulante.resultado_medicina_general %}
+                <a
+                  href="{{ postulante.resultado_medicina_general.url }}"
+                  target="_blank"
+                  >Ver documento</a
+                >
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Examen Toxicológico:</label></td>
+              <td>
+                {% if postulante.resultado_toxicologico %}
+                <a
+                  href="{{ postulante.resultado_toxicologico.url }}"
+                  target="_blank"
+                  >Ver documento</a
+                >
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Examen de Oftalmología:</label></td>
+              <td>
+                {% if postulante.resultado_oftalmologia %}
+                <a
+                  href="{{ postulante.resultado_oftalmologia.url }}"
+                  target="_blank"
+                  >Ver documento</a
+                >
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label>Examen de Otorrinolaringología:</label></td>
+              <td>
+                {% if postulante.resultado_otorrinolaringologia %}
+                <a
+                  href="{{ postulante.resultado_otorrinolaringologia.url }}"
+                  target="_blank"
+                  >Ver documento</a
+                >
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label for="id_estado">Estado</label></td>
+              <td>{{ postulante.estado }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="text-center mt-3">
+          <a href="{% url 'registropostulante' %}" class="btn btn-secondary"
+            >Volver</a
+          >
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+</div>
+{% endblock %}

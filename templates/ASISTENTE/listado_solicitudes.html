@@ -1,0 +1,67 @@
+{% extends 'bases/base_asistente.html' %}
+{% load static %}
+{% block title %}Asistente Gerencia | Listado de Solicitudes{% endblock %}
+
+{% block content %}
+<div class="row my-5">
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Estados de solicitudes de recarga-Facturas</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>ID Solicitud</th>
+          <th>Chofer</th>
+          <th>Fecha</th>
+          <th>Monto de Recarga</th>
+          <th>Ruta</th>
+          <th>Factura adjunta</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for factura in recepcion_facturas %}
+        <tr>
+          <td>{{ factura.id|add:1000 }}</td>
+          <td>{{ factura.chofer }}</td>
+          <td>{{ factura.fecha }}</td>
+          <td>S/. {{ factura.monto|floatformat:2 }}</td>
+          <td>{{ factura.ruta }}</td>
+          <td>
+            {% if factura.factura %}
+              <!-- Botón para abrir el modal con la imagen de la factura -->
+              <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facturaModal{{ factura.id }}">
+                Ver Factura
+              </button>
+              
+              <!-- Modal de Bootstrap -->
+              <div class="modal fade" id="facturaModal{{ factura.id }}" tabindex="-1" aria-labelledby="facturaModalLabel{{ factura.id }}" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="facturaModalLabel{{ factura.id }}">Factura #{{ factura.id|add:1000 }}</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body text-center">
+                      <img src="{{ factura.factura.url }}" class="img-fluid rounded shadow" alt="Factura de {{ factura.chofer }}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% else %}
+              <span class="text-muted">No adjunta</span>
+            {% endif %}
+          </td>
+          <td>
+            <!-- Flecha / botón que lleva a la vista de registro de gasto adicional -->
+            <!-- Suponiendo que tu URL se llama 'registro_gasto_adicional' y recibe factura.id -->
+            <a href="{% url 'registro_gasto_adicional' factura.id %}" class="btn btn-info">
+              <i class="fa fa-arrow-right"></i>
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

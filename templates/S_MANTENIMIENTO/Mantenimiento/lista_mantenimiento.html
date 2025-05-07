@@ -1,0 +1,55 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+
+<div class="row my-5">
+  <h3 class="fs-4 mb-3">Registro de Mantenimientos</h3>
+  <div class="col">
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>Camion</th>
+          <th>Motivo</th>
+          <th>Taller</th>
+          <th>Fecha de Mantenimiento</th>
+          <th>Tipo de Mantenimiento</th>
+          <th>Estado</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for mantenimiento in mantenimiento %}
+        <tr>
+          <td>{{ mantenimiento.camion }}</td>
+          <td>{{ mantenimiento.motivo.motivo }}</td>
+          <td>{{ mantenimiento.taller }}</td>
+          <td>{{ mantenimiento.fecha_mantenimiento }}</td>
+          <td>{{ mantenimiento.tipo_mantenimiento }}</td>
+          <td>{{ mantenimiento.estado_mantenimiento }}</td>
+          <td>
+            <a
+              href="{%url 'crear_mantenimiento_detalle' mantenimiento.id %}"
+              class="btn btn-info btn-sm"
+              aria-label="Mostrar detalles"
+            >
+              Agregar Detalle
+            </a>
+            <a
+              href="{% url 'factura_crear' mantenimiento.id %}"
+              class="btn btn-success btn-sm"
+            >
+              Añadir Factura
+            </a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="9">No hay mantenimientos registrados.</td>
+        </tr>
+
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

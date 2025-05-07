@@ -1,0 +1,70 @@
+{% extends 'bases/base_chofer.html' %} 
+{% block title %}Chofer | Detalles de factura de combustible{% endblock %}  {% block content %}    
+<!-- Listado de Camiones -->
+<div class="col-12">
+  <h3 class="fs-4 mb-3">Solicitudes de recarga de Combustible extra Registrados</h3>
+  <table class="table bg-white rounded shadow-sm table-hover">
+    <thead>
+      <tr>
+        <th>ID Solicitud</th>
+        <th>Chofer</th>
+        <th>Fecha</th>
+        <th>Monto de Recarga</th>
+        <th>Ruta</th>
+        <th>Estado</th>
+        
+      </tr>
+    </thead>
+    <tbody>
+      {% for combusExtraChofer in combus_extra_choferes %}
+      <tr>
+        <td>{{ combusExtraChofer.id|add:1000 }}</td>
+        <td>{{ combusExtraChofer.chofer }}</td>
+        <td>{{ combusExtraChofer.fecha }}</td>
+        <td>S/. {{ combusExtraChofer.montoRecarga|floatformat:2 }}</td>
+        <td>{{ combusExtraChofer.ruta }}</td>
+        <td>
+          {% if combusExtraChofer.estado == 'En proceso' %}
+          <span class="badge bg-warning text-dark">En proceso</span>
+          {% elif combusExtraChofer.estado == 'Aprobado' %}
+          <span class="badge bg-success">Aprobada</span>
+          {% elif combusExtraChofer.estado == 'Rechazado' %}
+          <span class="badge bg-danger">Rechazada</span>
+          {% endif %}
+        </td>
+
+        <td>
+          <!-- Botón para abrir el modal -->
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#solicitudModal{{ combusExtraChofer.id }}">
+            Ver Detalle
+          </button>
+
+          <!-- Modal de Bootstrap -->
+          <div class="modal fade" id="solicitudModal{{ combusExtraChofer.id }}" tabindex="-1" aria-labelledby="solicitudModalLabel{{ combusExtraChofer.id }}" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="solicitudModalLabel{{ combusExtraChofer.id }}">Detalle de solicitud de combustible</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p><strong>Monto solicitado:</strong> S/ {{ combusExtraChofer.montoRecarga }}</p>
+                        <p><strong>Ruta:</strong> {{ combusExtraChofer.ruta }}</p>
+                        <p><strong>Fecha de solicitud:</strong> {{ combusExtraChofer.fecha }}</p>
+                        <p><strong>Estado actual:</strong> <span class="text-success">{{ combusExtraChofer.estado }}</span></p>
+                        {% if combusExtraChofer.estado == "Aprobado" %}
+                            <p class="text-success fw-bold">Tu solicitud ha sido aprobada. Se ha transferido S/ {{ combusExtraChofer.montoRecarga }} para la recarga de combustible.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+          </div>
+        </td>
+
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+</div>
+{% endblock %}

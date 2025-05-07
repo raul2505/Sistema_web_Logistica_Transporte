@@ -1,0 +1,57 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_jefe_despacho.html' %}
+{% block title %} TRANSPORTE VERITO E.I.R.L {% endblock %}
+{% block page_title %} JEFE DESPACHO {% endblock %}
+{% block content %}
+<!-- prettier-ignore -->
+<div class="container my-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card border-secondary shadow-sm">
+        <div class="card-header bg-light border-bottom">
+          <h3 class="mb-0 text-secondary">Detalles de Hoja de Ruta #{{ hoja.id }}</h3>
+        </div>
+        <div class="card-body">
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <p class="mb-1"><strong>Chofer:</strong> {{ hoja.chofer.nombres }} {{ hoja.chofer.apellidos }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="mb-1"><strong>Camión:</strong> {{ hoja.camion.placa }}</p>
+            </div>
+          </div>
+          <hr>
+          <h5 class="mb-3 text-secondary">Ruta de Ida</h5>
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <p class="mb-1"><strong>Dirección:</strong> {{ hoja.partida_ubicacion.direccion }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="mb-1"><strong>Provincia:</strong> {{ hoja.partida_ubicacion.provincia }}</p>
+            </div>
+          </div>
+          <hr>
+          <h5 class="mb-3 text-secondary">Ruta de Vuelta</h5>
+          <div class="row mb-3">
+            <div class="col-sm-6">
+              <p class="mb-1"><strong>Dirección:</strong> {{ hoja.llegada_ubicacion.direccion }}</p>
+            </div>
+            <div class="col-sm-6">
+              <p class="mb-1"><strong>Provincia:</strong> {{ hoja.llegada_ubicacion.provincia }}</p>
+            </div>
+          </div>
+          <hr>
+          <div class="row">
+            <div class="col">
+              <p class="mb-0"><strong>Distancia:</strong> {{ hoja.distancia|default:"No calculada" }} km</p>
+            </div>
+          </div>
+        </div>
+        <div class="card-footer text-end bg-light border-top">
+          <a href="{%url 'hoja_de_ruta_list'%}"class="btn btn-secondary">Volver</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

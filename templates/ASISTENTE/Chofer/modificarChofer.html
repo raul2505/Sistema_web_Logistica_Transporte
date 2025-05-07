@@ -1,0 +1,81 @@
+{% extends 'bases/base_asistente.html' %} {% block title %} TRANSPORTE VERITO
+E.I.R.L {%endblock %} {% block page_title %} Asistente de Gerente {%endblock %}
+{% block content %}
+
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Editar Camión</h3>
+      <form action="" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_nombres">Nombres</label></td>
+              <td>{{ form.nombres }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_apellidos">Apellidos</label></td>
+              <td>{{ form.apellidos }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_fecha_nacimiento">Fecha de Nacimiento</label>
+              </td>
+              <td>{{ form.fecha_nacimiento }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_domicilio">Domicilio</label></td>
+              <td>{{ form.domicilio }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_telefono">Telefono</label></td>
+              <td>{{ form.telefono }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_numero_licencia">Numero Licencia</label></td>
+              <td>{{ form.numero_licencia }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_tipo_licencia">Tipo de licencia</label></td>
+              <td>{{ form.tipo_licencia }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_fecha_emision">Fecha de emisión</label></td>
+              <td>{{ form.fecha_emision}}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_fecha_vencimiento">Fecha de vencimiento</label>
+              </td>
+              <td>{{ form.fecha_vencimiento }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_estado_salud">Estado de Salud</label></td>
+              <td>{{ form.estado_salud}}</td>
+            </tr>
+            <tr>
+              <td><label for="id_camion_asignado">Camion Asignado</label></td>
+              <td>{{ form.camion }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button
+            type="reset"
+            href="{% url 'camion'  %}"
+            class="btn btn-danger"
+          >
+            Cancelar
+          </button>
+          <button type="submit" class="btn btn-success">Editar</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <!-- Listado de Camiones -->
+</div>
+
+{%endblock %}

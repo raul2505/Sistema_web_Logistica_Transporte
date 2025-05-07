@@ -1,0 +1,43 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Detalles del Mecanico</h3>
+      <form method="POST" enctype="multipart/form-data">
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td><label for="id_foto">Foto del mecanico</label></td>
+              <td>
+                {% if mecanico.foto %}
+                <img src="{{ mecanico.foto.url }}" alt="Foto" width="100" />
+                {% else %} No disponible {% endif %}
+              </td>
+            </tr>
+            <tr>
+              <td><label for="id_nombres">Nombres</label></td>
+              <td>{{ mecanico.nombres }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_apellidos">Apellidos</label></td>
+              <td>{{ mecanico.apellidos }}</td>
+            </tr>
+            <tr>
+              <td><label for="id_telefono">Telefono</label></td>
+              <td>{{ mecanico.telefono }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <a href="{% url 'addmecanico' %}" class="btn btn-secondary"
+            >Volver a la lista</a
+          >
+        </div>
+      </form>
+    </section>
+  </div>
+</div>
+{% endblock %}

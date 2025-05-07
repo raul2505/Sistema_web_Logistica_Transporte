@@ -1,0 +1,80 @@
+<!-- prettier-ignore -->
+{% extends 'bases/base_chofer.html' %}
+{% block title %} TRANSPORTE VERITO E.I.R.L {% endblock %}
+{% block page_title %} CHOFER {% endblock %}
+{% block content %}
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h1>Camión Asignado</h1>
+    {% if camion %}
+    <div class="camion-detalles">
+      {% if camion.foto_camion %}
+      <div class="text-center mb-4">
+        <img
+          src="{{ camion.foto_camion.url }}"
+          alt="Foto del Camión"
+          style="max-width: 300px"
+        />
+      </div>
+      {% endif %}
+      <table class="table table-bordered">
+        <tbody>
+          <tr>
+            <th>Placa</th>
+            <td>{{ camion.placa }}</td>
+          </tr>
+          <tr>
+            <th>Marca</th>
+            <td>{{ camion.marca }}</td>
+          </tr>
+          <tr>
+            <th>Modelo</th>
+            <td>{{ camion.modelo }}</td>
+          </tr>
+          <tr>
+            <th>Año de Fabricación</th>
+            <td>{{ camion.year_fabricacion }}</td>
+          </tr>
+          <tr>
+            <th>Capacidad de Carga</th>
+            <td>{{ camion.capacidad_carga }} kg</td>
+          </tr>
+          <tr>
+            <th>Tipo de Camión</th>
+            <td>{{ camion.tipo_camion }}</td>
+          </tr>
+          <tr>
+            <th>Estado Operativo</th>
+            <td>{{ camion.estado_operativo }}</td>
+          </tr>
+          <tr>
+            <th>Fecha de Adquisición</th>
+            <td>{{ camion.fecha_adquisicion }}</td>
+          </tr>
+          <tr>
+            <th>Propietario del Vehículo</th>
+            <td>{{ camion.propietario_vehiculo }}</td>
+          </tr>
+          <tr>
+            <th>Rendimiento de Combustible</th>
+            <td>{{ camion.rendimiento_combustible }} km/l</td>
+          </tr>
+          <tr>
+            <th>Empresa Propietaria</th>
+            <td>{{ camion.empresa_propietaria }}</td>
+          </tr>
+          {% if camion.notas %}
+          <tr>
+            <th>Notas</th>
+            <td>{{ camion.notas }}</td>
+          </tr>
+          {% endif %}
+        </tbody>
+      </table>
+    </div>
+    {% else %}
+    <p>No tienes un camión asignado.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

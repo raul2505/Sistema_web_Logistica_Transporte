@@ -1,0 +1,84 @@
+{% extends 'bases/base_jefe_despacho.html' %} {% block extra_css %}
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+/>
+<!-- prettier-ignore -->
+{% endblock extra_css %} {% block title %}Listado de Guías{% endblock %}
+ {%block content %}
+<div class="container mt-4">
+  <h2 class="mb-4 text-center">Listado de Guías de Remisión</h2>
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Hoja de Ruta</th>
+        <th>Chofer</th>
+        <th>Camión</th>
+        <th>Guia Transportista - PDF</th>
+        <th>Guia Remitente - PDF</th>
+        <th>Acciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for guia in guias %}
+      <tr>
+        <td>{{ guia.id }}</td>
+        <!-- prettier-ignore -->
+        <td>
+          {{ guia.hoja_de_ruta.partida_ubicacion.provincia }} - {{guia.hoja_de_ruta.llegada_ubicacion.provincia }}
+        </td>
+        <td>
+          {{ guia.hoja_de_ruta.chofer.nombres}}
+          {{guia.hoja_de_ruta.chofer.apellidos}}
+        </td>
+        <td>
+          {{ guia.hoja_de_ruta.camion.marca}} -
+          {{guia.hoja_de_ruta.camion.placa}}
+        </td>
+        <td>
+          {% if guia.pdf_generado %}
+          <a
+            href="{{ guia.pdf_generado.url }}"
+            target="_blank"
+            class="btn btn-outline-danger"
+          >
+            <i class="fas fa-file-pdf fa-lg"></i>
+          </a>
+          {% else %}
+          <span>No disponible</span>
+          {% endif %}
+        </td>
+        <td>
+          {% if guia.pdf_firmado %}
+          <a
+            href="{{ guia.pdf_firmado.url }}"
+            target="_blank"
+            class="btn btn-outline-danger"
+          >
+            <i class="fas fa-file-pdf fa-lg"></i>
+          </a>
+          {% else %}
+          <span>No disponible</span>
+          {% endif %}
+        </td>
+        <td>
+          <div class="d-flex gap-2">
+            <!-- Botón Eliminar con enlace -->
+            <a
+              href="{% url 'eliminar_guia' guia.id %}"
+              class="btn btn-danger btn-sm"
+            >
+              Eliminar
+            </a>
+          </div>
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+  <a href="{% url 'hoja_de_ruta_list' %}" class="btn btn-secondary"
+    >Volver a Hojas de Ruta</a
+  >
+</div>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'bases/base_mantenimiento.html' %} {% block title %} Dashboard de
+Mantenimiento {% endblock %} {% block page_title %} Agencia de Mantenimiento
+{%endblock %} {% block content %}
+<div class="row my-5">
+  <div class="col text-center">
+    <h1 class="display-4 fw-bold mb-4">
+      Bienvenido al Dashboard de Mantenimiento
+    </h1>
+    <p class="lead mb-4">
+      Gestiona eficientemente los servicios de mantenimiento para asegurar el
+      óptimo rendimiento de tus equipos y vehículos.
+    </p>
+    <div class="row g-4 justify-content-center">
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-tasks fa-3x mb-3 text-primary"></i>
+            <h5 class="card-title">Gestión de Órdenes</h5>
+            <p class="card-text">
+              Crea, edita y supervisa órdenes de mantenimiento en tiempo real.
+            </p>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="card h-100 shadow-sm">
+          <div class="card-body text-center">
+            <i class="fas fa-cogs fa-3x mb-3 text-success"></i>
+            <h5 class="card-title">Historial de Mantenimientos</h5>
+            <p class="card-text">
+              Consulta registros detallados de mantenimientos preventivos y
+              correctivos.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

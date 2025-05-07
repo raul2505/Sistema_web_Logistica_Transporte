@@ -1,0 +1,59 @@
+{% extends 'bases/base_jefe_despacho.html' %} 
+{% block title %}Jefe de Despacho | Facturas Recibidas{% endblock %} {% block content %}
+<div class="row my-5">
+    <!-- Listado de Camiones -->
+    <div class="col-12">
+    <h3 class="fs-4 mb-3">Consulta de Facturas</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+        <thead>
+        <tr>
+            <th>Numero de factura</th>
+            <th>Fecha de recepción</th>
+            <th>Monto total</th>
+            <th>Chofer</th>
+            <th>Factura adjunta</th>
+        
+        </tr>
+        </thead>
+        <tbody>
+        {% for facturaCombustible in facturas_combustibles %}
+        <tr>
+            <td>{{ facturaCombustible.id|add:1000 }}</td>
+            <td>{{ facturaCombustible.fecha }}</td>
+            <td>S/. {{ facturaCombustible.monto|floatformat:2 }}</td>
+            <td>{{ facturaCombustible.chofer }}</td>
+            <td>
+            {% if facturaCombustible.factura %}
+                <!-- Botón para abrir el modal -->
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#facturaModal{{ facturaCombustible.id }}">
+                    Ver Factura
+                </button>
+        
+                <!-- Modal de Bootstrap -->
+                <div class="modal fade" id="facturaModal{{ facturaCombustible.id }}" tabindex="-1" aria-labelledby="facturaModalLabel{{ facturaCombustible.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="facturaModalLabel{{ facturaCombustible.id }}">Factura #{{ facturaCombustible.id|add:1000 }}</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body text-center">
+                                <img src="{{ facturaCombustible.factura.url }}" class="img-fluid rounded shadow" alt="Factura de {{ facturaCombustible.chofer }}">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <span class="text-muted">No adjunta</span>
+            {% endif %}
+        </td>
+        
+            
+
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    </div>
+</div>
+{% endblock %}

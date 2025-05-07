@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, shrink-to-fit=no"
+    />
+    <title>Login</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/custom.css' %}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css?family=Poppins:600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://kit.fontawesome.com/a81368914c.js" defer></script>
+  </head>
+  <body>
+    <img class="wave" src="{% static 'img/wave.png' %}" alt="wave" />
+    <div class="container">
+      <div class="img">
+        <img src="{% static 'img/bg.svg' %}" alt="background image" />
+      </div>
+      <div class="login-content">
+        <form method="post">
+          {% csrf_token %}
+          <img src="{% static 'img/avatar.svg' %}" alt="avatar" />
+          <h2 class="title">
+            {% if msg %} {{ msg | safe }} {% else %} Welcome {% endif %}
+          </h2>
+          <div class="input-div one">
+            <div class="i">
+              <i class="fas fa-user"></i>
+            </div>
+            <div class="div">
+              <h5></h5>
+              {{ form.username }}
+            </div>
+          </div>
+          <div class="input-div pass">
+            <div class="i">
+              <i class="fas fa-lock"></i>
+            </div>
+            <div class="div">
+              <h5></h5>
+              {{ form.password }}
+            </div>
+          </div>
+          <div class="d-flex mb-5 align-items-center">
+            <label class="control control--checkbox mb-0">
+              <span class="caption">Remember me</span>
+              <input type="checkbox" checked="checked" />
+              <div class="control__indicator"></div>
+            </label>
+            <span class="ml-auto">
+              <a href="#" class="forgot-pass">Forgot Password</a>
+            </span>
+          </div>
+          <input
+            type="submit"
+            class="btn btn-pill text-white btn-block btn-primary"
+            value="Log In"
+          />
+        </form>
+      </div>
+    </div>
+    <script type="text/javascript" src="{% static 'js/main.js' %}"></script>
+  </body>
+</html>

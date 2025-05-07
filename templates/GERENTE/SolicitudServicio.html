@@ -1,0 +1,43 @@
+{% extends 'bases/base_gerente.html' %} {% block title %} Dashboard de Gerente
+General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
+{%block content %}
+
+
+  <div class="row my-5">
+    <div class="col-12 mb-5">
+      <section class="form-container p-4 bg-white rounded shadow-sm">
+        <div class="col-12">
+          <h3 class="fs-4 mb-3">Solicitudes de Servicio</h3>
+          <table class="table bg-white rounded shadow-sm table-hover">
+            <thead>
+              <tr>
+                <th>Nombres</th>
+                <th>Apellidos</th>
+                <th>Teléfono</th>
+                <th>Correo</th>
+                <th>Ruc de Empresa</th>
+                <th>Nombre de Empresa</th>
+                <th>Mensaje</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for solicitudServicio in solicitudServicio%}
+              <tr>
+                <td>{{solicitudServicio.nombres}}</td>
+                <td>{{solicitudServicio.apellidos}}</td>
+                <td>{{solicitudServicio.telefono}}</td>
+                <td>{{solicitudServicio.correo}}</td>
+                <td>{{solicitudServicio.ruc_empresa}}</td>
+                <td>{{solicitudServicio.nombre_empresa}}</td>
+                <td>{{solicitudServicio.mensaje}}</td>
+                <td></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
+{%endblock %}

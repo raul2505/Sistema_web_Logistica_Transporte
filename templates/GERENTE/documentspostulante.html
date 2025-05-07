@@ -1,0 +1,337 @@
+{% extends 'bases/base_gerente.html' %} {% block title %} Dashboard de Gerente
+General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
+{%block content %}
+
+                <!-- Listado de Postulantes -->
+                <div class="col-12">
+                  <h3 class="fs-4 mb-3">Postulantes Registrados</h3>
+                  <table class="table bg-white rounded shadow-sm table-hover">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Tipo de Licencia</th>
+                        <th>Formato de Licencia</th>
+                        <th>Licencia Frontal</td>
+                        <th>Licencia Posterior</td>
+                        <th>Licencia Electrónica</td>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for postulante in postulantes %}
+                      {% if postulante.estado == "primera_aprobada" %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ postulante.nombres }}</td>
+                        <td>{{ postulante.apellidos }}</td>
+                        <td>{{ postulante.tipo_licencia }}</td>
+                        <td>{{ postulante.tipo_licencia_formato }}</td>
+                        <td>
+                          {% if postulante.licencia_frontal %}
+                              <img src="{{ postulante.licencia_frontal.url }}" alt="Licencia Frontal" width="100">
+                          {% else %}
+                              No disponible
+                          {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_posterior %}
+                                <img src="{{ postulante.licencia_posterior.url }}" alt="Licencia Posterior" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_electronica %}
+                                <img src="{{ postulante.licencia_electronica.url }}" alt="Licencia Electrónica" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>{{ postulante.estado }}</td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="row my-5">
+                  <!-- Formulario de Registro -->
+                  <div class="col-12 mb-5">
+                    <section class="form-container p-4 bg-white rounded shadow-sm">
+                      <h3 class="fs-4 mb-3">Registrar Documentos del Postulante (Segunda Etapa)</h3>
+                      
+                      <!-- Combobox mejorado -->
+                      <div class="mb-4">
+                        <label for="postulanteSelect" class="form-label">Seleccionar Postulante Aprobado</label>
+                        <select id="postulanteSelect" class="form-select">
+                          <option value="">Seleccione un postulante...</option>
+                          {% for postulante in postulantes %}
+                            {% if postulante.estado == "primera_aprobada" %}
+                              <option value="{{ postulante.id }}"
+                                      data-nombres="{{ postulante.nombres }}"
+                                      data-apellidos="{{ postulante.apellidos }}"
+                                      data-tipo-licencia="{{ postulante.tipo_licencia }}"
+                                      data-tipo-licencia-formato="{{ postulante.tipo_licencia_formato }}"
+                                      data-licencia-frontal="{% if postulante.licencia_frontal %}{{ postulante.licencia_frontal.url }}{% endif %}"
+                                      data-licencia-posterior="{% if postulante.licencia_posterior %}{{ postulante.licencia_posterior.url }}{% endif %}"
+                                      data-licencia-electronica="{% if postulante.licencia_electronica %}{{ postulante.licencia_electronica.url }}{% endif %}">
+                                ID: {{ postulante.id }} - {{ postulante.nombres }} {{ postulante.apellidos }}
+                              </option>
+                            {% endif %}
+                          {% endfor %}
+                        </select>
+                      </div>
+                  
+                      <form method="POST" action="{% url 'documentspostulante' %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <input type="hidden" id="postulante_id" name="postulante_id">
+                        <div class="table-responsive">
+                          <table class="table table-bordered">
+                            <tbody>
+                              <!-- Campos existentes con visualización -->
+                              <tr>
+                                <td><label for="id_nombres">Nombre/s del postulante</label></td>
+                                <td><input type="text" id="id_nombres" name="nombres" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_apellidos">Apellidos del postulante</label></td>
+                                <td><input type="text" id="id_apellidos" name="apellidos" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_tipo_licencia">Tipo de Licencia</label></td>
+                                <td><input type="text" id="id_tipo_licencia" name="tipo_licencia" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_tipo_licencia_formato">Formato de Licencia</label></td>
+                                <td><input type="text" id="id_tipo_licencia_formato" name="tipo_licencia_formato" class="form-control" readonly></td>
+                              </tr>
+                              <tr>
+                                <td><label>Licencia Frontal</label></td>
+                                <td>
+                                  <div id="licencia_frontal_preview" class="mb-2"></div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><label>Licencia Posterior</label></td>
+                                <td>
+                                  <div id="licencia_posterior_preview" class="mb-2"></div>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td><label>Licencia Electrónica</label></td>
+                                <td>
+                                  <div id="licencia_electronica_preview" class="mb-2"></div>
+                                </td>
+                              </tr>
+                              <!-- Nuevos campos para documentos -->
+                              <tr>
+                                <td><label for="id_referencias_trabajos">Referencias de Trabajos</label></td>
+                                <td><input type="file" id="id_referencias_trabajos" name="referencias_trabajos" class="form-control" required></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_record_conduccion">Record de Conducción</label></td>
+                                <td><input type="file" id="id_record_conduccion" name="record_conduccion" class="form-control" required></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_historial_papeletas">Historial de Papeletas</label></td>
+                                <td><input type="file" id="id_historial_papeletas" name="historial_papeletas" class="form-control" required></td>
+                              </tr>
+                              <tr>
+                                <td><label for="id_antecedentes_penales">Antecedentes Penales</label></td>
+                                <td><input type="file" id="id_antecedentes_penales" name="antecedentes_penales" class="form-control" required></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                        <div class="text-center mt-3">
+                          <button type="submit" class="btn btn-success">Registrar Datos del Postulante Aprobado</button>
+                        </div>
+                      </form>
+                    </section>
+                  </div>
+                  
+                  <script>
+                  document.addEventListener('DOMContentLoaded', function() {
+                      const postulanteSelect = document.getElementById('postulanteSelect');
+                      
+                      postulanteSelect.addEventListener('change', function() {
+                          const selectedOption = this.options[this.selectedIndex];
+                          
+                          if (selectedOption.value) {
+                              // Guardar ID del postulante
+                              document.getElementById('postulante_id').value = selectedOption.value;
+                              
+                              // Poblar campos de texto
+                              document.getElementById('id_nombres').value = selectedOption.getAttribute('data-nombres');
+                              document.getElementById('id_apellidos').value = selectedOption.getAttribute('data-apellidos');
+                              document.getElementById('id_tipo_licencia').value = selectedOption.getAttribute('data-tipo-licencia');
+                              document.getElementById('id_tipo_licencia_formato').value = selectedOption.getAttribute('data-tipo-licencia-formato');
+                              
+                              // Mostrar imágenes
+                              const frontalUrl = selectedOption.getAttribute('data-licencia-frontal');
+                              const posteriorUrl = selectedOption.getAttribute('data-licencia-posterior');
+                              const electronicaUrl = selectedOption.getAttribute('data-licencia-electronica');
+                              
+                              // Función helper para mostrar imágenes
+                              const showImage = (url, containerId) => {
+                                  const container = document.getElementById(containerId);
+                                  if (url) {
+                                      container.innerHTML = `<img src="${url}" alt="Licencia" class="img-fluid" style="max-width: 200px;">`;
+                                  } else {
+                                      container.innerHTML = '<p class="text-muted">No disponible</p>';
+                                  }
+                              };
+                              
+                              showImage(frontalUrl, 'licencia_frontal_preview');
+                              showImage(posteriorUrl, 'licencia_posterior_preview');
+                              showImage(electronicaUrl, 'licencia_electronica_preview');
+                          } else {
+                              // Limpiar todos los campos si no hay selección
+                              document.getElementById('postulante_id').value = '';
+                              document.getElementById('id_nombres').value = '';
+                              document.getElementById('id_apellidos').value = '';
+                              document.getElementById('id_tipo_licencia').value = '';
+                              document.getElementById('id_tipo_licencia_formato').value = '';
+                              document.getElementById('licencia_frontal_preview').innerHTML = '';
+                              document.getElementById('licencia_posterior_preview').innerHTML = '';
+                              document.getElementById('licencia_electronica_preview').innerHTML = '';
+                          }
+                      });
+                  });
+                </script>
+                <!-- Listado de Postulantes -->
+                <div class="col-12">
+                  <h3 class="fs-4 mb-3">Postulantes Registrados</h3>
+                  <table class="table bg-white rounded shadow-sm table-hover">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Nombres</th>
+                        <th>Apellidos</th>
+                        <th>Tipo de Licencia</th>
+                        <th>Formato de Licencia</th>
+                        <th>Licencia Frontal</td>
+                        <th>Licencia Posterior</td>
+                        <th>Licencia Electrónica</td>
+                        <th>Referencias de Trabajos Anteriores</th>
+                        <th>Record de Conducción</th>
+                        <th>Historial de Papeletas</th>
+                        <th>Antecedentes Penales</th>
+                        <th>Estado</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {% for postulante in postulantes %}
+                      {% if postulante.estado == "segunda_aprobada" or postulante.estado == "segunda_pendiente" %}
+                      <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ postulante.nombres }}</td>
+                        <td>{{ postulante.apellidos }}</td>
+                        <td>{{ postulante.tipo_licencia }}</td>
+                        <td>{{ postulante.tipo_licencia_formato }}</td>
+                        <td>
+                          {% if postulante.licencia_frontal %}
+                              <img src="{{ postulante.licencia_frontal.url }}" alt="Licencia Frontal" width="100">
+                          {% else %}
+                              No disponible
+                          {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_posterior %}
+                                <img src="{{ postulante.licencia_posterior.url }}" alt="Licencia Posterior" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.licencia_electronica %}
+                                <img src="{{ postulante.licencia_electronica.url }}" alt="Licencia Electrónica" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td><td>
+                          {% if postulante.referencias_trabajos %}
+                              <a href="{{ postulante.referencias_trabajos.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                  <i class="fas fa-file-download"></i> Ver Referencias
+                              </a>
+                          {% else %}
+                              No disponible
+                          {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.record_conduccion %}
+                                <a href="{{ postulante.record_conduccion.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-file-download"></i> Ver Record
+                                </a>
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.historial_papeletas %}
+                                <img src="{{ postulante.historial_papeletas.url }}" alt="Historial de Papeletas" width="100">
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if postulante.antecedentes_penales %}
+                                <a href="{{ postulante.antecedentes_penales.url }}" target="_blank" class="btn btn-sm btn-primary">
+                                    <i class="fas fa-file-download"></i> Ver Antecedentes
+                                </a>
+                            {% else %}
+                                No disponible
+                            {% endif %}
+                        </td>
+                        <td id="estado-{{ postulante.id }}">{{ postulante.estado }}</td>
+                        <td>
+                          <form method="POST" action="{% url 'aprobar_documentos_postulante' postulante.id %}">
+                            {% csrf_token %}
+                            <button type="submit" 
+                            class="btn btn-success btn-sm"
+                            data-id="{{ postulante.id }}" 
+                            {% if postulante.estado == "segunda_aprobada" %} disabled {% endif %}>
+                            Aprobar
+                            </button>
+                          </form>
+                          <form 
+                            method="POST" 
+                            action="{% url 'postulante_action' 'eliminar' postulante.id %}" 
+                            style="display: inline-block;"
+                          >
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                          </form>
+                          <form 
+                            method="POST" 
+                            action="{% url 'postulante_action' 'rechazar_segunda' postulante.id %}" 
+                            style="display: inline-block;"
+                          >
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-warning btn-sm" {% if postulante.estado == "segunda_rechazada" %} disabled {% endif %}>Desaprobar</button>
+                          </form>
+                          <a 
+                            href="{% url 'detalles_documentos_postulante' postulante.id %}" 
+                            class="btn btn-info btn-sm" 
+                            aria-label="Mostrar detalles"
+                          >
+                            Detalles
+                          </a>
+                        </td>
+                      </tr>
+                      {% endif %}
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                  <div class="text-center mt-3">
+                    <a href="{% url 'generar_segundo_reporte_pdf' %}" class="btn btn-danger">Generar Reporte en PDF</a>
+                </div>
+                </div>
+              </div>
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+    {%endblock %}

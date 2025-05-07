@@ -1,0 +1,32 @@
+{% extends "bases/base_representante.html" %} {% block content %}
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h2>Registrar Solicitud de Alianza</h2>
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="mb-3">
+        <label for="descripcion" class="form-label">Descripción:</label>
+        <textarea
+          class="form-control"
+          name="descripcion"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+      <div class="mb-3">
+        <label for="solicitud" class="form-label"
+          >Archivo con Terminos y Condiciones:</label
+        >
+        <input
+          type="file"
+          class="form-control"
+          name="solicitud"
+          accept=".pdf,.doc,.docx"
+          required
+        />
+      </div>
+      <button type="submit" class="btn btn-primary">Registrar</button>
+    </form>
+  </section>
+</div>
+{% endblock %}

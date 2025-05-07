@@ -1,0 +1,114 @@
+<!-- templates/gerente/registro_aceptacion.html -->
+
+{% extends "bases/base_gerente.html" %} {% block content %}
+<div class="col-12 mb-5">
+  <section class="form-container p-4 bg-white rounded shadow-sm">
+    <h2>Seguimiento de Solicitudes de Alianza</h2>
+    {% if solicitudes %}
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Descripción</th>
+          <th>Fecha de Solicitud</th>
+          <th>Estado</th>
+          <th>Archivo</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for solicitud in solicitudes %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ solicitud.descripcion }}</td>
+          <td>{{ solicitud.fecha_solicitud|date:"d/m/Y H:i" }}</td>
+
+          <td>
+            {% if solicitud.estado == 'pendiente' %}
+            <a
+              href="{% url 'cambiar_estado_solicitud' solicitud.id 'aprobada' %}"
+              class="btn btn-success btn-sm"
+            >
+              Aprobar
+            </a>
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              data-bs-toggle="modal"
+              data-bs-target="#modalRechazo{{ solicitud.id }}"
+            >
+              Rechazar
+            </button>
+
+            <!-- Modal para indicar motivo -->
+            <div
+              class="modal fade"
+              id="modalRechazo{{ solicitud.id }}"
+              tabindex="-1"
+              aria-labelledby="modalRechazoLabel"
+              aria-hidden="true"
+            >
+              <div class="modal-dialog">
+                <form
+                  method="post"
+                  action="{% url 'cambiar_estado_solicitud' solicitud.id 'rechazada' %}"
+                >
+                  {% csrf_token %}
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Motivo de Rechazo</h5>
+                      <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="modal"
+                        aria-label="Close"
+                      ></button>
+                    </div>
+                    <div class="modal-body">
+                      <textarea
+                        name="motivo"
+                        class="form-control"
+                        rows="4"
+                        placeholder="Explique el motivo del rechazo..."
+                        required
+                      ></textarea>
+                    </div>
+                    <div class="modal-footer">
+                      <button type="submit" class="btn btn-danger">
+                        Rechazar
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+            {% else %}
+            <span
+              class="badge {% if solicitud.estado == 'aprobada' %} bg-success {% elif solicitud.estado == 'rechazada' %} bg-danger {% endif %}"
+            >
+              {{ solicitud.estado|capfirst }}
+            </span>
+            {% endif %}
+          </td>
+
+          <td>
+            {% if solicitud.solicitud %}
+            <a
+              href="{{ solicitud.solicitud.url }}"
+              class="btn btn-info btn-sm"
+              target="_blank"
+              >Ver Archivo</a
+            >
+            {% else %}
+            <span class="text-secondary">No adjunto</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    {% else %}
+    <p class="text-muted">No has realizado solicitudes de alianza.</p>
+    {% endif %}
+  </section>
+</div>
+{% endblock %}

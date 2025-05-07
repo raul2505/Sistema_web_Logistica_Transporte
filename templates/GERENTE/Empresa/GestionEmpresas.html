@@ -1,0 +1,97 @@
+{% extends 'bases/base_gerente.html' %} {% block title %} Dashboard de Gerente
+General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
+{%block content %}
+<div class="row my-5">
+  <!-- Formulario de Registro -->
+  <div class="col-12 mb-5">
+    <section class="form-container p-4 bg-white rounded shadow-sm">
+      <h3 class="fs-4 mb-3">Registrar Empresa</h3>
+      <form
+        method="POST"
+        action="{% url 'empresa_action_simple' action='crear' %}"
+        enctype="multipart/form-data"
+      >
+        {% csrf_token %}
+        <table class="table table-bordered">
+          <tbody>
+            <tr>
+              <td>
+                <label for="id_logo_empresa">Logo de empresa</label>
+              </td>
+              <td>{{ form.logo_empresa }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_nombre_empresa">Nombre de la Empresa</label>
+              </td>
+              <td>{{ form.nombre_empresa }}</td>
+            </tr>
+            <tr>
+              <td>
+                <label for="id_ruc_empresa">Ruc de la empresa</label>
+              </td>
+              <td>{{ form.ruc_empresa }}</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="text-center mt-3">
+          <button type="submit" class="btn btn-success">
+            Registrar Empresa
+          </button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="col-12">
+    <h3 class="fs-4 mb-3">Empresas Registrados</h3>
+    <table class="table bg-white rounded shadow-sm table-hover">
+      <thead>
+        <tr>
+          <th>Logo Empresa</th>
+          <th>Nombre Empresa</th>
+          <th>RUC de la Empresa</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for empresa in empresas %}
+        <tr>
+          <td>
+            {% if empresa.logo_empresa %}
+            <img src="{{ empresa.logo_empresa.url }}" alt="Foto" width="50" />
+            {% else %} No disponible {% endif %}
+          </td>
+          <td>{{ empresa.nombre_empresa }}</td>
+          <td>{{ empresa.ruc_empresa}}</td>
+
+          <td>
+            <a
+              href="{% url 'modificar_empresa' empresa.id %}"
+              class="btn btn-primary btn-sm"
+              >Editar</a
+            >
+            <form
+              method="POST"
+              action="{% url 'empresa_action' 'eliminar' empresa.id %}"
+              style="display: inline-block"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger btn-sm">
+                Eliminar
+              </button>
+            </form>
+            <a
+              href="{% url 'detalles_empresa' empresa.id %}"
+              class="btn btn-info btn-sm"
+              aria-label="Mostrar detalles"
+            >
+              Detalles
+            </a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{%endblock %}
