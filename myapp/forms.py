@@ -46,6 +46,14 @@ class LoginForm (forms.Form):
     )
 
 class SignUpForm(UserCreationForm):
+    first_name = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombres"}),
+        required=True
+    )
+    last_name = forms.CharField(
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Apellidos"}),
+        required=True
+    )
     username = forms.CharField(
         widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Nombre de usuario"}),
         required=True
@@ -78,16 +86,16 @@ class SignUpForm(UserCreationForm):
         widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Confirmar contraseña"}),
         required=True
     )
-    roles = forms.ModelMultipleChoiceField(
-        queryset=Group.objects.all(),  # Obtiene todos los grupos disponibles
-        widget=forms.CheckboxSelectMultiple,  # Permite seleccionar múltiples roles
-        required=True,  # Evita que se registre sin rol asignado
-        label="Selecciona los roles"
+    roles = forms.ModelChoiceField(
+        queryset=Group.objects.all(),
+        widget=forms.Select,  # Desplegable para selección única
+        required=True,
+        label="Selecciona un rol"
     )
 
     class Meta:
         model = User
-        fields = ("username", "email", "dni", "phone", "empresa", "password1", "password2", "roles")
+        fields = ("first_name","last_name","username", "email", "dni", "phone", "empresa", "password1", "password2", "roles")
 
     def save(self, commit=True):
         user = super().save(commit=False)  # Guarda el usuario sin confirmarlo aún

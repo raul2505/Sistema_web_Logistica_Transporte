@@ -10,6 +10,24 @@ General {% endblock %} {% block page_title %} GERENTE GENERAL {%endblock %}
         <tbody>
           <tr>
             <td>
+              <label for="id_nombre" class="form-label">Nombres</label>
+            </td>
+            <td>
+              {{ form.first_name }}
+              <small class="text-danger">{{ form.first_name.errors }}</small>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <label for="id_apellido" class="form-label">Apellidos</label>
+            </td>
+            <td>
+              {{ form.last_name }}
+              <small class="text-danger">{{ form.last_name.errors }}</small>
+            </td>
+          </tr>
+          <tr>
+            <td>
               <label for="id_username" class="form-label"
                 >Nombre de Usuario</label
               >
